@@ -2,6 +2,7 @@
 namespace Car_Parts
 {
     using Car_Parts.Data;
+    using Car_Parts.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -21,18 +22,20 @@ namespace Car_Parts
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<CarPartsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<CarPartsDbContext>();
             services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,6 +59,8 @@ namespace Car_Parts
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
+
+            app.ApplicationServices.GetService<CarPartsDbContext>().Database.Migrate();
         }
     }
 }
