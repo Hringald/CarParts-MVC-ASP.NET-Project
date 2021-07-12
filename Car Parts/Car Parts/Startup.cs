@@ -59,8 +59,6 @@ namespace Car_Parts
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
-
-            app.ApplicationServices.GetService<CarPartsDbContext>().Database.Migrate();
         }
     }
 }

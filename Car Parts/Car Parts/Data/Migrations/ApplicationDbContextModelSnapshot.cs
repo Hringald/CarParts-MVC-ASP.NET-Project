@@ -25,7 +25,6 @@ namespace Car_Parts.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -97,6 +96,9 @@ namespace Car_Parts.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("MakeId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ModelId")
                         .HasColumnType("nvarchar(450)");
 
@@ -106,7 +108,7 @@ namespace Car_Parts.Data.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -114,6 +116,8 @@ namespace Car_Parts.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("MakeId");
 
                     b.HasIndex("ModelId");
 
@@ -337,11 +341,17 @@ namespace Car_Parts.Data.Migrations
                         .WithMany("Parts")
                         .HasForeignKey("CategoryId");
 
+                    b.HasOne("Car_Parts.Data.Models.Make", "Make")
+                        .WithMany()
+                        .HasForeignKey("MakeId");
+
                     b.HasOne("Car_Parts.Data.Models.Model", "Model")
                         .WithMany("Parts")
                         .HasForeignKey("ModelId");
 
                     b.Navigation("Category");
+
+                    b.Navigation("Make");
 
                     b.Navigation("Model");
                 });
