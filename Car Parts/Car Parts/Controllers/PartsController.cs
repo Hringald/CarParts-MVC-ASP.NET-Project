@@ -147,6 +147,28 @@ namespace Car_Parts.Controllers
 
             return this.Redirect("/");
         }
+        //
+        //Categories
+        public IActionResult Categories(string model)
+        {
+            ViewBag.Model = model;
+            var categories = this.data.Categories
+                 .Select(c => new PartCategoryViewModel
+                 {
+                     Id = c.Id,
+                     Name = c.Name,
+                     ImageUrl = c.ImageUrl
+                 }).ToList();
+
+            return View(categories);
+        }
+        //
+        //ShopPage
+        public IActionResult ShopPage()
+        {
+            return View();
+        }
+        //
         //private Methods
         private ICollection<PartMakeViewModel> GetPartMakes()
         =>
@@ -179,7 +201,7 @@ namespace Car_Parts.Controllers
                 }).ToList();
 
         private ICollection<PartModelViewModel> GetPartModels()
- =>
+        =>
      this.data
          .Models
          .Select(p => new PartModelViewModel

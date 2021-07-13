@@ -1,8 +1,25 @@
-﻿@{
+﻿@model ICollection<PartMakeViewModel>;
+@{
     ViewData["Title"] = "Home Page";
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<partial name="_SlideShowPartial">
+    <link rel="stylesheet" href="~/css/carMenu.css">
+    <h1 style="text-align:center">Choose car make:</h1>
+
+
+    <div class="row mt-2 mb-4">
+        @foreach (var make in Model)
+        {
+            <div class=" col-6 col-xl-1 mb-5 mt-5">
+                <a href="/Models/Models?make=@make.Name">
+                <img src="@make.ImageUrl"
+                     class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
+                     data-placement="bottom" title="car.Year car.Model">
+                </a>
+            </div>
+        }
+    </div>
