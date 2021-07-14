@@ -7,3 +7,4 @@ namespace Car_Parts.Models.Parts
         public string ImageUrl { get; set; }
     }
 }
+

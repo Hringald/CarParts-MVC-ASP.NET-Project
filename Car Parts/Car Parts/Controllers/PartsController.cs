@@ -149,9 +149,10 @@ namespace Car_Parts.Controllers
         }
         //
         //Categories
-        public IActionResult Categories(string model)
+        public IActionResult Categories(string make, string model)
         {
             ViewBag.Model = model;
+            ViewBag.Make = make;
             var categories = this.data.Categories
                  .Select(c => new PartCategoryViewModel
                  {
@@ -164,9 +165,31 @@ namespace Car_Parts.Controllers
         }
         //
         //ShopPage
-        public IActionResult ShopPage()
+        public IActionResult ShopPage(string make, string model, string category)
         {
-            return View();
+            var parts = this.data.Parts
+                .Where(p => p.Model.Name == model && p.Make.Name == make && p.Category.Name == category)
+                .Select(p => new PartViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    ImageUrl = p.ImageUrl,
+                    Description = p.Description,
+                    MakeName = p.Make.Name,
+                    ModelName = p.Model.Name,
+                    Price = p.Price,
+                    Quantity = p.Quantity
+                }).ToList();
+
+            return View(parts);
+        }
+        //
+        //Info
+        public IActionResult Info(string id)
+        {
+            var part = this.data.Parts.FirstOrDefault(p => p.Id == id);
+
+            return View(part);
         }
         //
         //private Methods
