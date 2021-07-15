@@ -1,0 +1,25 @@
+@model ICollection<PartCategoryViewModel>;
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Categories</h1>
+</div>
+
+
+
+<section id="CarCatalogue">
+    <div class="row mt-5 mb-5">
+        @foreach (var category in Model)
+        {
+            <div class="card col-6 col-lg-2 mr-4">
+                <a href="/Parts/ShopPage?make=@ViewBag.Make&model=@ViewBag.Model&category=@category.Name">
+                    <img style="width: 150px; max-width: 150px; height: 150px; max-height: 150px " src="@category.ImageUrl"
+                         class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
+                         data-placement="bottom" title="@category.Name">
+                </a>
+            </div>
+        }
+    </div>
+</section>

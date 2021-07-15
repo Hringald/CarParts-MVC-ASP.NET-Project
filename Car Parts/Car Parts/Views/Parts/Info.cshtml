@@ -1,0 +1,81 @@
+﻿@model Part;
+@{
+    ViewData["Title"] = "Info";
+}
+@using Car_Parts.Data.Models;
+
+
+<style>
+    .float-container {
+        float: left;
+    }
+
+    .float-child {
+        width: 72%;
+        float: right;
+    }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Info for part:</h1>
+</div>
+
+
+
+<div class="row">
+    <div class="card" style="width: 18rem; margin-bottom: 100px">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text">@Model.Description</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Quantity: @Model.Quantity</li>
+            <li class="list-group-item">Price: @Model.Price$</li>
+        </ul>
+    </div>
+
+
+
+
+
+    <div style="width: 50rem; margin-bottom: 100px;margin-left:50px">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Name</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Enter your name...">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" id="inputEmail4" placeholder="Enter your email...">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Phone</label>
+                    <input type="text" class="form-control" id="inputPassword4" placeholder="Enter your phone...">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Part Identity (for the seller)</label>
+                    <input type="text" class="form-control" id="inputPassword4" placeholder="@Model.Id" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Enter your adress...">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="Enter your city...">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip" placeholder="Enter your zip code...">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Order</button>
+        </form>
+    </div>
+</div>
+
+
+    
