@@ -96,10 +96,6 @@ namespace Car_Parts.Controllers
                 return this.View(make);
             }
 
-            var imageInMemory = new MemoryStream();
-            makeImage.CopyTo(imageInMemory);
-            var imageBytes = imageInMemory.ToArray();
-
             var makeModel = new Make
             {
                 Name = make.Name,

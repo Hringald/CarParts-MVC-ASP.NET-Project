@@ -11,5 +11,6 @@ namespace Car_Parts.Models.Parts
         [Url]
         [Display(Name = "Image URL")]
         public string ImageUrl { get; init; }
+        public byte[] Image { get; set; }
     }
 }
