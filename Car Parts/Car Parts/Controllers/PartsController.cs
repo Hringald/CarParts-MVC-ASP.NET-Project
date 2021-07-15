@@ -2,11 +2,12 @@ using Car_Parts.Data;
 using Car_Parts.Data.Models;
 using Car_Parts.Models;
 using Car_Parts.Models.Parts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
-
+using FileSystem = System.IO.File;
 namespace Car_Parts.Controllers
 {
     public class PartsController : Controller
@@ -78,8 +79,13 @@ namespace Car_Parts.Controllers
             return this.View();
         }
         [HttpPost]
-        public IActionResult AddMake(AddMakeFormModel make)
+        public IActionResult AddMake(AddMakeFormModel make, IFormFile makeImage)
         {
+            if (makeImage == null || makeImage.Length > 5 * 1024 * 1024)
+            {
+                this.ModelState.AddModelError("makeImage","The image is not valid it is required and should be less than 5mb.");
+            }
+
             if (this.data.Makes.Any(m => m.Name == make.Name))
             {
                 this.ModelState.AddModelError(nameof(make.Name), "Make already exists.");
@@ -89,6 +95,10 @@ namespace Car_Parts.Controllers
             {
                 return this.View(make);
             }
+
+            var imageInMemory = new MemoryStream();
+            makeImage.CopyTo(imageInMemory);
+            var imageBytes = imageInMemory.ToArray();
 
             var makeModel = new Make
             {
