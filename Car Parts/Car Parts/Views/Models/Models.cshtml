@@ -1,4 +1,4 @@
-﻿@model ICollection<PartModelViewModel>;
+﻿@model ICollection<CategoryMakeModelView>;
 @{
     ViewData["Title"] = "Models";
 }
@@ -23,7 +23,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-center">@modelModel.Name</li>
             </ul>
-            <a href="/Parts/Categories?make=@ViewBag.Name&model=@modelModel.Name" class="btn btn-block btn-primary">Products Categories</a>
+            <a asp-controller="Parts" asp-action="Categories" asp-route-Make="@ViewBag.Name" asp-route-Model="@modelModel.Name" class="btn btn-block btn-primary">Products Categories</a>
         </div>
     </div>
   }

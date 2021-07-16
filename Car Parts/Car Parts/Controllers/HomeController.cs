@@ -18,7 +18,7 @@
         public IActionResult Index()
         {
             var makes = this.data.Makes
-                .Select(m => new PartMakeViewModel
+                .Select(m => new CategoryMakeModelView
                 {
                     Id = m.Id,
                     Name = m.Name,

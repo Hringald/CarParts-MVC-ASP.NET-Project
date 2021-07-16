@@ -83,7 +83,7 @@ namespace Car_Parts.Controllers
         {
             if (makeImage == null || makeImage.Length > 5 * 1024 * 1024)
             {
-                this.ModelState.AddModelError("makeImage","The image is not valid it is required and should be less than 5mb.");
+                this.ModelState.AddModelError("makeImage", "The image is not valid it is required and should be less than 5mb.");
             }
 
             if (this.data.Makes.Any(m => m.Name == make.Name))
@@ -160,7 +160,7 @@ namespace Car_Parts.Controllers
             ViewBag.Model = model;
             ViewBag.Make = make;
             var categories = this.data.Categories
-                 .Select(c => new PartCategoryViewModel
+                 .Select(c => new CategoryMakeModelView
                  {
                      Id = c.Id,
                      Name = c.Name,
@@ -171,10 +171,22 @@ namespace Car_Parts.Controllers
         }
         //
         //ShopPage
-        public IActionResult ShopPage(string make, string model, string category)
+        public IActionResult ShopPage(string make, string model, string category, string searchTerm, int currentPage)
         {
-            var parts = this.data.Parts
+            var partQuery = this.data.Parts.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                partQuery = partQuery.Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            var totalParts = this.data.Parts.Count();
+
+            var parts = partQuery
+                .Skip((currentPage-1) * AllPartsViewModel.PartsPerPage)
+                .Take(AllPartsViewModel.PartsPerPage)
                 .Where(p => p.Model.Name == model && p.Make.Name == make && p.Category.Name == category)
+                .OrderByDescending(p => p.Id)
                 .Select(p => new PartViewModel
                 {
                     Id = p.Id,
@@ -187,7 +199,16 @@ namespace Car_Parts.Controllers
                     Quantity = p.Quantity
                 }).ToList();
 
-            return View(parts);
+            var partsModel = new AllPartsViewModel
+            {
+                Parts = parts,
+                Make = make,
+                Model = model,
+                Category = category,
+                TotalParts = totalParts
+            };
+
+            return View(partsModel);
         }
         //
         //Info
@@ -199,41 +220,41 @@ namespace Car_Parts.Controllers
         }
         //
         //private Methods
-        private ICollection<PartMakeViewModel> GetPartMakes()
+        private ICollection<CategoryMakeModelView> GetPartMakes()
         =>
             this.data
                 .Makes
-                .Select(p => new PartMakeViewModel
+                .Select(p => new CategoryMakeModelView
                 {
                     Id = p.Id,
                     Name = p.Name
                 }).ToList();
 
-        private ICollection<PartModelViewModel> GetPartModelMakes()
+        private ICollection<CategoryMakeModelView> GetPartModelMakes()
         =>
             this.data
                 .Makes
-                .Select(p => new PartModelViewModel
+                .Select(p => new CategoryMakeModelView
                 {
                     Id = p.Id,
                     Name = p.Name,
                 }).ToList();
 
-        private ICollection<PartCategoryViewModel> GetPartCategories()
+        private ICollection<CategoryMakeModelView> GetPartCategories()
         =>
             this.data
                 .Categories
-                .Select(p => new PartCategoryViewModel
+                .Select(p => new CategoryMakeModelView
                 {
                     Id = p.Id,
                     Name = p.Name
                 }).ToList();
 
-        private ICollection<PartModelViewModel> GetPartModels()
+        private ICollection<CategoryMakeModelView> GetPartModels()
         =>
      this.data
          .Models
-         .Select(p => new PartModelViewModel
+         .Select(p => new CategoryMakeModelView
          {
              Id = p.Id,
              Name = p.Name

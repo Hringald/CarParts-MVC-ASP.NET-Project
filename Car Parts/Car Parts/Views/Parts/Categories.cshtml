@@ -1,4 +1,4 @@
-@model ICollection<PartCategoryViewModel>;
+@model ICollection<CategoryMakeModelView>;
 @{
     ViewData["Title"] = "Categories";
 }
@@ -14,7 +14,12 @@
         @foreach (var category in Model)
         {
             <div class="card col-6 col-lg-2 mr-4">
-                <a href="/Parts/ShopPage?make=@ViewBag.Make&model=@ViewBag.Model&category=@category.Name">
+                <a asp-controller="Parts" 
+                   asp-action="ShopPage" 
+                   asp-route-Make="@ViewBag.Make" 
+                   asp-route-Model="@ViewBag.Model" 
+                   asp-route-Category="@category.Name"
+                   asp-route-CurrentPage="1">
                     <img style="width: 150px; max-width: 150px; height: 150px; max-height: 150px " src="@category.ImageUrl"
                          class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
                          data-placement="bottom" title="@category.Name">

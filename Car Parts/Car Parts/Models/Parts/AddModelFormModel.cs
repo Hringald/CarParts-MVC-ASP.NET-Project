@@ -13,6 +13,6 @@ namespace Car_Parts.Models.Parts
         [Display(Name = "Image URL")]
         public string ImageUrl { get; init; }
         public string MakeId { get; set; }
-        public ICollection<PartModelViewModel> Makes { get; set; }
+        public ICollection<CategoryMakeModelView> Makes { get; set; }
     }
 }
