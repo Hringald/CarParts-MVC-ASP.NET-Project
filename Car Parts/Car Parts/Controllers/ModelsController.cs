@@ -20,7 +20,7 @@ namespace Car_Parts.Controllers
             ViewBag.Name = make;
 
             var modelsModel = this.data.Models.Where(m => m.Make.Name == make)
-                .Select(m => new CategoryMakeModelView
+                .Select(m => new PartCategoryViewModel
                 {
                     Id = m.Id,
                     Name = m.Name,

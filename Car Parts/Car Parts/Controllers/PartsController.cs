@@ -1,13 +1,10 @@
 using Car_Parts.Data;
 using Car_Parts.Data.Models;
-using Car_Parts.Models;
 using Car_Parts.Models.Parts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using FileSystem = System.IO.File;
 namespace Car_Parts.Controllers
 {
     public class PartsController : Controller
@@ -54,6 +51,7 @@ namespace Car_Parts.Controllers
             var make = this.data.Makes.FirstOrDefault(m => m.Id == part.MakeId);
             var model = this.data.Models.FirstOrDefault(m => m.Id == part.ModelId);
             var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
+            var seller = this.data.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
 
             var partModel = new Part
             {
@@ -64,8 +62,8 @@ namespace Car_Parts.Controllers
                 Model = model,
                 Description = part.Description,
                 Quantity = part.Quantity,
-                Price = part.Price
-
+                Price = part.Price,
+                SellerId = seller.Id,
             };
 
             this.data.Parts.Add(partModel);
@@ -79,13 +77,14 @@ namespace Car_Parts.Controllers
             return this.View();
         }
         [HttpPost]
-        public IActionResult AddMake(AddMakeFormModel make, IFormFile makeImage)
+        public IActionResult AddMake(AddMakeFormModel make/*, IFormFile makeImage*/)
         {
+            /*
             if (makeImage == null || makeImage.Length > 5 * 1024 * 1024)
             {
                 this.ModelState.AddModelError("makeImage", "The image is not valid it is required and should be less than 5mb.");
             }
-
+            */
             if (this.data.Makes.Any(m => m.Name == make.Name))
             {
                 this.ModelState.AddModelError(nameof(make.Name), "Make already exists.");
@@ -160,7 +159,7 @@ namespace Car_Parts.Controllers
             ViewBag.Model = model;
             ViewBag.Make = make;
             var categories = this.data.Categories
-                 .Select(c => new CategoryMakeModelView
+                 .Select(c => new PartCategoryViewModel
                  {
                      Id = c.Id,
                      Name = c.Name,
@@ -183,7 +182,7 @@ namespace Car_Parts.Controllers
             var totalParts = this.data.Parts.Count();
 
             var parts = partQuery
-                .Skip((currentPage-1) * AllPartsViewModel.PartsPerPage)
+                .Skip((currentPage - 1) * AllPartsViewModel.PartsPerPage)
                 .Take(AllPartsViewModel.PartsPerPage)
                 .Where(p => p.Model.Name == model && p.Make.Name == make && p.Category.Name == category)
                 .OrderByDescending(p => p.Id)
@@ -220,41 +219,41 @@ namespace Car_Parts.Controllers
         }
         //
         //private Methods
-        private ICollection<CategoryMakeModelView> GetPartMakes()
+        private ICollection<PartCategoryViewModel> GetPartMakes()
         =>
             this.data
                 .Makes
-                .Select(p => new CategoryMakeModelView
+                .Select(p => new PartCategoryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
                 }).ToList();
 
-        private ICollection<CategoryMakeModelView> GetPartModelMakes()
+        private ICollection<PartCategoryViewModel> GetPartModelMakes()
         =>
             this.data
                 .Makes
-                .Select(p => new CategoryMakeModelView
+                .Select(p => new PartCategoryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
                 }).ToList();
 
-        private ICollection<CategoryMakeModelView> GetPartCategories()
+        private ICollection<PartCategoryViewModel> GetPartCategories()
         =>
             this.data
                 .Categories
-                .Select(p => new CategoryMakeModelView
+                .Select(p => new PartCategoryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name
                 }).ToList();
 
-        private ICollection<CategoryMakeModelView> GetPartModels()
+        private ICollection<PartCategoryViewModel> GetPartModels()
         =>
      this.data
          .Models
-         .Select(p => new CategoryMakeModelView
+         .Select(p => new PartCategoryViewModel
          {
              Id = p.Id,
              Name = p.Name

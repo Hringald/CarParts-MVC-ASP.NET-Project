@@ -19,6 +19,29 @@ namespace Car_Parts.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Car_Parts.Data.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("Car_Parts.Data.Models.Category", b =>
                 {
                     b.Property<string>("Id")
@@ -43,6 +66,9 @@ namespace Car_Parts.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -54,6 +80,8 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdminId");
+
                     b.ToTable("Makes");
                 });
 
@@ -61,6 +89,9 @@ namespace Car_Parts.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -77,9 +108,56 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdminId");
+
                     b.HasIndex("MakeId");
 
                     b.ToTable("Models");
+                });
+
+            modelBuilder.Entity("Car_Parts.Data.Models.Offer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PartId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SellerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ZipCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PartId");
+
+                    b.HasIndex("SellerId");
+
+                    b.ToTable("Offers");
                 });
 
             modelBuilder.Entity("Car_Parts.Data.Models.Part", b =>
@@ -116,6 +194,9 @@ namespace Car_Parts.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("SellerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -123,6 +204,8 @@ namespace Car_Parts.Data.Migrations
                     b.HasIndex("MakeId");
 
                     b.HasIndex("ModelId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Parts");
                 });
@@ -190,6 +273,10 @@ namespace Car_Parts.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -241,6 +328,8 @@ namespace Car_Parts.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -327,8 +416,37 @@ namespace Car_Parts.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Car_Parts.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("Car_Parts.Data.Models.Admin", b =>
+                {
+                    b.HasOne("Car_Parts.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Car_Parts.Data.Models.Make", b =>
+                {
+                    b.HasOne("Car_Parts.Data.Models.Admin", null)
+                        .WithMany("Makes")
+                        .HasForeignKey("AdminId");
+                });
+
             modelBuilder.Entity("Car_Parts.Data.Models.Model", b =>
                 {
+                    b.HasOne("Car_Parts.Data.Models.Admin", null)
+                        .WithMany("Models")
+                        .HasForeignKey("AdminId");
+
                     b.HasOne("Car_Parts.Data.Models.Make", "Make")
                         .WithMany("Models")
                         .HasForeignKey("MakeId")
@@ -336,6 +454,23 @@ namespace Car_Parts.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Make");
+                });
+
+            modelBuilder.Entity("Car_Parts.Data.Models.Offer", b =>
+                {
+                    b.HasOne("Car_Parts.Data.Models.Part", "Part")
+                        .WithMany()
+                        .HasForeignKey("PartId");
+
+                    b.HasOne("Car_Parts.Data.Models.ApplicationUser", "Seller")
+                        .WithMany("Offers")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Car_Parts.Data.Models.Part", b =>
@@ -352,11 +487,17 @@ namespace Car_Parts.Data.Migrations
                         .WithMany("Parts")
                         .HasForeignKey("ModelId");
 
+                    b.HasOne("Car_Parts.Data.Models.ApplicationUser", "Seller")
+                        .WithMany("Parts")
+                        .HasForeignKey("SellerId");
+
                     b.Navigation("Category");
 
                     b.Navigation("Make");
 
                     b.Navigation("Model");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -410,6 +551,13 @@ namespace Car_Parts.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Car_Parts.Data.Models.Admin", b =>
+                {
+                    b.Navigation("Makes");
+
+                    b.Navigation("Models");
+                });
+
             modelBuilder.Entity("Car_Parts.Data.Models.Category", b =>
                 {
                     b.Navigation("Parts");
@@ -422,6 +570,13 @@ namespace Car_Parts.Data.Migrations
 
             modelBuilder.Entity("Car_Parts.Data.Models.Model", b =>
                 {
+                    b.Navigation("Parts");
+                });
+
+            modelBuilder.Entity("Car_Parts.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Offers");
+
                     b.Navigation("Parts");
                 });
 #pragma warning restore 612, 618

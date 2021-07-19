@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,5 +25,7 @@ namespace Car_Parts.Data.Models
         [Column(TypeName = "decimal(18,4)")]
         [Range(typeof(decimal), "0.01", DecimalMaxValue)]
         public decimal Price { get; set; }
+        public string SellerId { get; set; }
+        public ApplicationUser Seller { get; set; }
     }
 }
