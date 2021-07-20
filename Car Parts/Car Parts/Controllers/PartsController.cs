@@ -1,10 +1,14 @@
 using Car_Parts.Data;
 using Car_Parts.Data.Models;
+using Car_Parts.Infrastructure;
 using Car_Parts.Models.Parts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+
 namespace Car_Parts.Controllers
 {
     public class PartsController : Controller
@@ -53,7 +57,7 @@ namespace Car_Parts.Controllers
             var make = this.data.Makes.FirstOrDefault(m => m.Id == part.MakeId);
             var model = this.data.Models.FirstOrDefault(m => m.Id == part.ModelId);
             var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
-            var seller = this.data.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var sellerId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var partModel = new Part
             {
@@ -65,7 +69,7 @@ namespace Car_Parts.Controllers
                 Description = part.Description,
                 Quantity = part.Quantity,
                 Price = part.Price,
-                SellerId = seller.Id,
+                SellerId = sellerId,
             };
 
             this.data.Parts.Add(partModel);
@@ -77,12 +81,25 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult AddMake()
         {
+            if (!this.UserIsAdmin())
+            {
+                return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
+            }
             return this.View();
         }
         [HttpPost]
         [Authorize]
         public IActionResult AddMake(AddMakeFormModel make/*, IFormFile makeImage*/)
         {
+            var adminId = this.data.Admins
+                .Where(a => a.UserId == this.User.GetId())
+                .Select(d => d.Id)
+                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(adminId))
+            {
+                return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
+            }
             /*
             if (makeImage == null || makeImage.Length > 5 * 1024 * 1024)
             {
@@ -102,7 +119,8 @@ namespace Car_Parts.Controllers
             var makeModel = new Make
             {
                 Name = make.Name,
-                ImageUrl = make.ImageUrl
+                ImageUrl = make.ImageUrl,
+                AdminId = adminId
             };
 
             this.data.Makes.Add(makeModel);
@@ -115,6 +133,11 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult AddModel()
         {
+            if (!this.UserIsAdmin())
+            {
+                return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
+            }
+
             return View(new AddModelFormModel
             {
                 Makes = this.GetPartModelMakes()
@@ -124,6 +147,16 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult AddModel(AddModelFormModel carModel)
         {
+            var adminId = this.data.Admins
+               .Where(a => a.UserId == this.User.GetId())
+               .Select(d => d.Id)
+               .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(adminId))
+            {
+                return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
+            }
+
             if (!this.data.Makes.Any(m => m.Id == carModel.MakeId))
             {
                 this.ModelState.AddModelError(nameof(carModel.MakeId), "Make is invalid.");
@@ -143,13 +176,12 @@ namespace Car_Parts.Controllers
                 return this.View(carModel);
             }
 
-
-
             var modelModel = new Model
             {
                 Name = carModel.Name,
                 ImageUrl = carModel.ImageUrl,
-                Make = make
+                Make = make,
+                AdminId = this.User.GetId()
             };
 
             make.Models.Add(modelModel);
@@ -218,6 +250,9 @@ namespace Car_Parts.Controllers
             return View(partsModel);
         }
         //
+        //IsAdmin
+        private bool UserIsAdmin() => this.data.Admins
+                .Any(a => a.UserId == this.User.GetId());
         //Info
         [Authorize]
         public IActionResult Info(string id)

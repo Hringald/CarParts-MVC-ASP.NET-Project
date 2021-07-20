@@ -5,6 +5,7 @@ namespace Car_Parts.Data
         public class Admin
         {
             public const int NameMaxLength = 30;
+            public const int NameMinLength = 2;
         }
 
         public class Part
@@ -15,6 +16,8 @@ namespace Car_Parts.Data
             public const int DescriptionMaxLength = 200;
             public const int DescriptionMinLength = 20;
             public const string DecimalMaxValue = "79228162514264337593543950335";
+            public const int QuantityMinValue = 1;
+            public const int QuantityMaxValue = 100;
         }
 
         public class Category
@@ -34,6 +37,7 @@ namespace Car_Parts.Data
         {
 
             public const int NameMaxLength = 100;
+            public const int NameMinLength = 2;
         }
 
         public class Offer

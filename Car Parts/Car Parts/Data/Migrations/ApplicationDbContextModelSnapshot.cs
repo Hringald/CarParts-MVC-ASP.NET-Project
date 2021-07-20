@@ -21,10 +21,8 @@ namespace Car_Parts.Data.Migrations
 
             modelBuilder.Entity("Car_Parts.Data.Models.Admin", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -67,10 +65,7 @@ namespace Car_Parts.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("AdminId1")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -83,7 +78,7 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId1");
+                    b.HasIndex("AdminId");
 
                     b.ToTable("Makes");
                 });
@@ -94,10 +89,7 @@ namespace Car_Parts.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AdminId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("AdminId1")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -114,7 +106,7 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId1");
+                    b.HasIndex("AdminId");
 
                     b.HasIndex("MakeId");
 
@@ -444,7 +436,7 @@ namespace Car_Parts.Data.Migrations
                 {
                     b.HasOne("Car_Parts.Data.Models.Admin", "Admin")
                         .WithMany("Makes")
-                        .HasForeignKey("AdminId1");
+                        .HasForeignKey("AdminId");
 
                     b.Navigation("Admin");
                 });
@@ -453,7 +445,7 @@ namespace Car_Parts.Data.Migrations
                 {
                     b.HasOne("Car_Parts.Data.Models.Admin", "Admin")
                         .WithMany("Models")
-                        .HasForeignKey("AdminId1");
+                        .HasForeignKey("AdminId");
 
                     b.HasOne("Car_Parts.Data.Models.Make", "Make")
                         .WithMany("Models")

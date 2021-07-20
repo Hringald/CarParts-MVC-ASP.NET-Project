@@ -10,7 +10,7 @@ namespace Car_Parts.Data.Models
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         [Required]
-        [MaxLength(DefaultMaxLength)]
+        [MaxLength(NameMaxLength)]
         public string Name { get; set; }
         [Required]
         public string ImageUrl { get; set; }
@@ -20,7 +20,7 @@ namespace Car_Parts.Data.Models
         [Required]
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
-        [Range(0,100)]
+        [Range(QuantityMinValue,QuantityMaxValue)]
         public int Quantity { get; set; }
         [Column(TypeName = "decimal(18,4)")]
         [Range(typeof(decimal), "0.01", DecimalMaxValue)]

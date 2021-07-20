@@ -1,6 +1,7 @@
 ﻿namespace Car_Parts.Controllers
 {
     using Car_Parts.Data;
+    using Car_Parts.Infrastructure;
     using Car_Parts.Models;
     using Car_Parts.Models.Parts;
     using Microsoft.AspNetCore.Mvc;
@@ -27,15 +28,8 @@
 
 
 
+
             return View(makes);
-        }
-
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

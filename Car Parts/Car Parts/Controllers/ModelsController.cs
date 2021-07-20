@@ -3,6 +3,7 @@ namespace Car_Parts.Controllers
     using Car_Parts.Data;
     using Car_Parts.Models;
     using Car_Parts.Models.Parts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Linq;
@@ -14,7 +15,7 @@ namespace Car_Parts.Controllers
         {
             this.data = data;
         }
-
+        [Authorize]
         public IActionResult Models(string make)
         {
             ViewBag.Name = make;
@@ -28,14 +29,6 @@ namespace Car_Parts.Controllers
                 }).ToList();
 
             return this.View(modelsModel);
-        }
-
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
