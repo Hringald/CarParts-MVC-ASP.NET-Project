@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Car_Parts.Data.Models
 {
-    using static DataConstants;
+    using static DataConstants.Category;
     public class Category
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();

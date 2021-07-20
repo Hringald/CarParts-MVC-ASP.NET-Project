@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Car_Parts.Data.Models
 {
-    using static DataConstants;
+    using static DataConstants.Model;
     public class Model
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -15,6 +15,8 @@ namespace Car_Parts.Data.Models
         public string ImageUrl { get; set; }
         [Required]
         public Make Make { get; set; }
+        public string AdminId { get; set; }
+        public Admin Admin { get; set; }
         public ICollection<Part> Parts { get; set; } = new HashSet<Part>();
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Car_Parts.Data.Models
 {
-    using static DataConstants;
+    using static DataConstants.Part;
     public class Part
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();

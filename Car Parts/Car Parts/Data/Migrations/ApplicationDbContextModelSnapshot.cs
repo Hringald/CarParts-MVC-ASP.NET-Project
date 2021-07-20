@@ -66,7 +66,10 @@ namespace Car_Parts.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("AdminId")
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AdminId1")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
@@ -80,7 +83,7 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("AdminId1");
 
                     b.ToTable("Makes");
                 });
@@ -90,7 +93,10 @@ namespace Car_Parts.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("AdminId")
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AdminId1")
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
@@ -108,7 +114,7 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("AdminId1");
 
                     b.HasIndex("MakeId");
 
@@ -436,22 +442,26 @@ namespace Car_Parts.Data.Migrations
 
             modelBuilder.Entity("Car_Parts.Data.Models.Make", b =>
                 {
-                    b.HasOne("Car_Parts.Data.Models.Admin", null)
+                    b.HasOne("Car_Parts.Data.Models.Admin", "Admin")
                         .WithMany("Makes")
-                        .HasForeignKey("AdminId");
+                        .HasForeignKey("AdminId1");
+
+                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("Car_Parts.Data.Models.Model", b =>
                 {
-                    b.HasOne("Car_Parts.Data.Models.Admin", null)
+                    b.HasOne("Car_Parts.Data.Models.Admin", "Admin")
                         .WithMany("Models")
-                        .HasForeignKey("AdminId");
+                        .HasForeignKey("AdminId1");
 
                     b.HasOne("Car_Parts.Data.Models.Make", "Make")
                         .WithMany("Models")
                         .HasForeignKey("MakeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Admin");
 
                     b.Navigation("Make");
                 });

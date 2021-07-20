@@ -1,7 +1,7 @@
 using Car_Parts.Data;
 using Car_Parts.Data.Models;
 using Car_Parts.Models.Parts;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace Car_Parts.Controllers
             this.data = data;
         }
         //Add Part
+        [Authorize]
         public IActionResult AddPart()
         {
             return View(new AddPartFormModel
@@ -25,6 +26,7 @@ namespace Car_Parts.Controllers
             });
         }
         [HttpPost]
+        [Authorize]
         public IActionResult AddPart(AddPartFormModel part)
         {
             if (!this.data.Makes.Any(m => m.Id == part.MakeId))
@@ -72,11 +74,13 @@ namespace Car_Parts.Controllers
             return RedirectToAction("Index", "Home");
         }
         //Add Make
+        [Authorize]
         public IActionResult AddMake()
         {
             return this.View();
         }
         [HttpPost]
+        [Authorize]
         public IActionResult AddMake(AddMakeFormModel make/*, IFormFile makeImage*/)
         {
             /*
@@ -108,6 +112,7 @@ namespace Car_Parts.Controllers
         }
         //
         //Add Model --------------------------------------------
+        [Authorize]
         public IActionResult AddModel()
         {
             return View(new AddModelFormModel
@@ -116,6 +121,7 @@ namespace Car_Parts.Controllers
             });
         }
         [HttpPost]
+        [Authorize]
         public IActionResult AddModel(AddModelFormModel carModel)
         {
             if (!this.data.Makes.Any(m => m.Id == carModel.MakeId))
@@ -154,6 +160,7 @@ namespace Car_Parts.Controllers
         }
         //
         //Categories
+        [Authorize]
         public IActionResult Categories(string make, string model)
         {
             ViewBag.Model = model;
@@ -170,6 +177,7 @@ namespace Car_Parts.Controllers
         }
         //
         //ShopPage
+        [Authorize]
         public IActionResult ShopPage(string make, string model, string category, string searchTerm, int currentPage)
         {
             var partQuery = this.data.Parts.AsQueryable();
@@ -211,6 +219,7 @@ namespace Car_Parts.Controllers
         }
         //
         //Info
+        [Authorize]
         public IActionResult Info(string id)
         {
             var part = this.data.Parts.FirstOrDefault(p => p.Id == id);

@@ -1,12 +1,12 @@
 namespace Car_Parts.Models.Parts
 {
-    using static Data.DataConstants;
+    using static Data.DataConstants.Model;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     public class AddModelFormModel
     {
         [Required]
-        [StringLength(DefaultMaxLength, MinimumLength = DefaultMinLength)]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; init; }
         [Required]
         [Url]
