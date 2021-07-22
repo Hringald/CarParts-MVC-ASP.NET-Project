@@ -33,18 +33,23 @@ namespace Car_Parts.Controllers
         //
         //ShopPage
         [Authorize]
-        public IActionResult ShopPage([FromQuery]AllPartsViewModel query)
+        public IActionResult ShopPage([FromQuery] AllPartsViewModel query)
         {
             var partQuery = this.data.Parts.AsQueryable();
+
+            var totalParts = this.data.Parts
+            .Where(p => p.Model.Name == query.Model && p.Make.Name == query.Make && p.Category.Name == query.Category)
+            .Count();
 
             if (!string.IsNullOrEmpty(query.SearchTerm))
             {
                 partQuery = partQuery.Where(p => p.Name.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
 
-            var totalParts = this.data.Parts
-                .Where(p => p.Model.Name == query.Model && p.Make.Name == query.Make && p.Category.Name == query.Category)
-                .Count();
+                totalParts = this.data.Parts
+                 .Where(p => p.Model.Name == query.Model && p.Make.Name == query.Make && p.Category.Name == query.Category)
+                 .Where(p => p.Name.ToLower().Contains(query.SearchTerm.ToLower()))
+                 .Count();
+            }
 
             var parts = partQuery
                 .Skip((query.CurrentPage - 1) * AllPartsViewModel.PartsPerPage)
@@ -69,7 +74,9 @@ namespace Car_Parts.Controllers
                 Make = query.Make,
                 Model = query.Model,
                 Category = query.Category,
-                TotalParts = totalParts
+                TotalParts = totalParts,
+                SearchTerm = query.SearchTerm,
+                CurrentPage = query.CurrentPage
             };
 
             return View(partsModel);

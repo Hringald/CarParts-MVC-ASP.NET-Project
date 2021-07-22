@@ -5,8 +5,8 @@ namespace Car_Parts.Models.Parts
 
     public class AllPartsViewModel
     {
-        public int CurrentPage { get; init; } = 1;
-        public const int PartsPerPage = 5;     
+        public int CurrentPage { get; set; } = 1;
+        public const int PartsPerPage = 6;     
         public string SearchTerm { get; set; }
         public int TotalParts { get; set; }
         public string Make { get; set; }
