@@ -29,7 +29,7 @@ namespace Car_Parts.Models.Parts
         [Required]
         [Range(typeof(decimal), "0.01", DecimalMaxValue,ErrorMessage ="Price must be a positive number.")]
         public decimal Price { get; init; }
-        public ICollection<PartCategoryViewModel> Makes { get; set; }
+        public string MakeName { get; set; }
         public ICollection<PartCategoryViewModel> Categories { get; set; }
         public ICollection<PartCategoryViewModel> Models { get; set; }
     }

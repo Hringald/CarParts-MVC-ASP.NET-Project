@@ -18,6 +18,7 @@
 
         public IActionResult Index()
         {
+
             var makes = this.data.Makes
                 .Select(m => new PartCategoryViewModel
                 {
@@ -25,9 +26,6 @@
                     Name = m.Name,
                     ImageUrl = m.ImageUrl
                 }).ToList();
-
-
-
 
             return View(makes);
         }

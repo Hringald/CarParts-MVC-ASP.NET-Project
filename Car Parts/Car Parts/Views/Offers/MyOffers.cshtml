@@ -1,0 +1,25 @@
+@model ICollection<OffersViewModel>;
+@{
+    ViewData["Title"] = "My Offers";
+}
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var part in Model)
+        {
+            <tr>
+                <td>@part.Name</td>
+                <td>@part.Price</td>
+                <td>@part.Quantity</td>
+                <td><a asp-controller="Parts" asp-action="Info" asp-route-id="@part.Id" class="btn btn-info">Info</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

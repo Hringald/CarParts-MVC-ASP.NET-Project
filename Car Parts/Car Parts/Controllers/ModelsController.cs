@@ -3,12 +3,10 @@ namespace Car_Parts.Controllers
     using Car_Parts.Data;
     using Car_Parts.Data.Models;
     using Car_Parts.Infrastructure;
-    using Car_Parts.Models;
     using Car_Parts.Models.Parts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     public class ModelsController : Controller

@@ -18,22 +18,38 @@ namespace Car_Parts.Controllers
         {
             this.data = data;
         }
+        //Choose Make
+        public IActionResult ChooseMake()
+        {
+            var makes = this.data.Makes
+             .Select(m => new PartCategoryViewModel
+             {
+                 Id = m.Id,
+                 Name = m.Name,
+                 ImageUrl = m.ImageUrl
+             }).ToList();
+
+            return View(makes);
+        }
+        //
         //Add Part
         [Authorize]
-        public IActionResult AddPart()
+        public IActionResult AddPart(string make)
         {
+            var makeModel = this.data.Makes.FirstOrDefault(m => m.Name == make);
+
             return View(new AddPartFormModel
             {
-                Makes = this.GetPartMakes(),
+                MakeName = make,
                 Categories = this.GetPartCategories(),
-                Models = this.GetPartModels()
+                Models = this.GetPartModels(make)
             });
         }
         [HttpPost]
         [Authorize]
         public IActionResult AddPart(AddPartFormModel part)
         {
-            if (!this.data.Makes.Any(m => m.Id == part.MakeId))
+            if (!this.data.Makes.Any(m => m.Name == part.MakeName))
             {
                 this.ModelState.AddModelError(nameof(part.MakeId), "Make is invalid.");
             }
@@ -49,12 +65,11 @@ namespace Car_Parts.Controllers
             if (!ModelState.IsValid)
             {
                 part.Categories = this.GetPartCategories();
-                part.Makes = this.GetPartMakes();
-                part.Models = this.GetPartModels();
+                part.Models = this.GetPartModels(part.MakeName);
                 return this.View(part);
             }
 
-            var make = this.data.Makes.FirstOrDefault(m => m.Id == part.MakeId);
+            var make = this.data.Makes.FirstOrDefault(m => m.Name == part.MakeName);
             var model = this.data.Models.FirstOrDefault(m => m.Id == part.ModelId);
             var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
             var sellerId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -76,13 +91,18 @@ namespace Car_Parts.Controllers
             this.data.SaveChanges();
 
             return RedirectToAction("Index", "Home");
-        }      
-       
+        }
+
         //Info
         [Authorize]
         public IActionResult Info(string id)
         {
             var part = this.data.Parts.FirstOrDefault(p => p.Id == id);
+
+            if (part.SellerId==this.User.GetId())
+            {
+
+            }
 
             return View(part);
         }
@@ -118,10 +138,11 @@ namespace Car_Parts.Controllers
                     Name = p.Name
                 }).ToList();
 
-        private ICollection<PartCategoryViewModel> GetPartModels()
+        private ICollection<PartCategoryViewModel> GetPartModels(string make)
         =>
      this.data
          .Models
+         .Where(m=>m.Make.Name==make)
          .Select(p => new PartCategoryViewModel
          {
              Id = p.Id,
