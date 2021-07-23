@@ -13,10 +13,10 @@ namespace Car_Parts.Data.Models
         public string Name { get; set; }
         [Required]
         public string ImageUrl { get; set; }
-        [Required]
         public Make Make { get; set; }
-        public string AdminId { get; set; }
+        public string MakeId { get; set; }
         public Admin Admin { get; set; }
+        public string AdminId { get; set; }
         public ICollection<Part> Parts { get; set; } = new HashSet<Part>();
     }
 }

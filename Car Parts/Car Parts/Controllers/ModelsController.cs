@@ -55,6 +55,11 @@ namespace Car_Parts.Controllers
                .Select(d => d.Id)
                .FirstOrDefault();
 
+            if (carModel.MakeId == null)
+            {
+                return this.Redirect("/");
+            }
+
             if (string.IsNullOrEmpty(adminId))
             {
                 return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
@@ -67,9 +72,11 @@ namespace Car_Parts.Controllers
 
             var make = this.data.Makes.FirstOrDefault(m => m.Id == carModel.MakeId);
 
+
+
             if (this.data.Models.Where(m => m.Make.Name == make.Name).Any(m => m.Name == carModel.Name))
             {
-                this.ModelState.AddModelError(nameof(carModel.Name), "Model already exists.");
+                this.ModelState.AddModelError(nameof(carModel.Name), "This model already exists.");
             }
 
             if (!ModelState.IsValid)
@@ -95,14 +102,14 @@ namespace Car_Parts.Controllers
         }
         //
         private ICollection<PartCategoryViewModel> GetPartModelMakes()
- =>
-     this.data
-         .Makes
-         .Select(p => new PartCategoryViewModel
-         {
-             Id = p.Id,
-             Name = p.Name,
-         }).ToList();
+        =>
+           this.data
+              .Makes
+              .Select(p => new PartCategoryViewModel
+              {
+                  Id = p.Id,
+                  Name = p.Name
+              }).ToList();
         //
         private bool UserIsAdmin() => this.data.Admins
               .Any(a => a.UserId == this.User.GetId());

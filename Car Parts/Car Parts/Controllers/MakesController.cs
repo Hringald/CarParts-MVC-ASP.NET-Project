@@ -60,7 +60,7 @@ namespace Car_Parts.Controllers
             {
                 Name = make.Name,
                 ImageUrl = make.ImageUrl,
-                AdminId = adminId
+                AdminId = adminId,      
             };
 
             this.data.Makes.Add(makeModel);

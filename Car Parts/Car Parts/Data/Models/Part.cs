@@ -14,8 +14,11 @@ namespace Car_Parts.Data.Models
         public string Name { get; set; }
         [Required]
         public string ImageUrl { get; set; }
+        public string CategoryId { get; set; }
         public Category Category { get; set; }
+        public string MakeId { get; set; }
         public Make Make { get; set; }
+        public string ModelId { get; set; }
         public Model Model { get; set; }
         [Required]
         [MaxLength(DescriptionMaxLength)]

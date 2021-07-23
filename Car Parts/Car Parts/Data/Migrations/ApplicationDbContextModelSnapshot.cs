@@ -96,7 +96,6 @@ namespace Car_Parts.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MakeId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -449,9 +448,7 @@ namespace Car_Parts.Data.Migrations
 
                     b.HasOne("Car_Parts.Data.Models.Make", "Make")
                         .WithMany("Models")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MakeId");
 
                     b.Navigation("Admin");
 

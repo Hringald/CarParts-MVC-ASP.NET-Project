@@ -78,8 +78,11 @@ namespace Car_Parts.Controllers
             {
                 Name = part.Name,
                 ImageUrl = part.ImageUrl,
+                CategoryId = part.CategoryId,
                 Category = category,
+                MakeId = part.MakeId,
                 Make = make,
+                ModelId = part.ModelId,
                 Model = model,
                 Description = part.Description,
                 Quantity = part.Quantity,
@@ -99,12 +102,87 @@ namespace Car_Parts.Controllers
         {
             var part = this.data.Parts.FirstOrDefault(p => p.Id == id);
 
-            if (part.SellerId==this.User.GetId())
-            {
+            return View(part);
+        }
+        //
+        //Edit
+        [Authorize]
+        public IActionResult Edit(string partId)
+        {
+            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
 
+            var make = this.data.Makes.FirstOrDefault(m => m.Id == part.MakeId);
+            var model = this.data.Models.FirstOrDefault(m => m.Id == part.ModelId);
+            var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
+
+            var partModel = new EditPartFormModel
+            {
+                Description = part.Description,
+                ImageUrl = part.ImageUrl,
+                MakeName = make.Name,
+                ModelName = model.Name,
+                Name = part.Name,
+                Price = part.Price,
+                Quantity = part.Quantity,
+                CategoryName = category.Name
+            };
+
+
+            return View(partModel);
+        }
+        //
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(EditPartFormModel part)
+        {
+            if (!this.data.Makes.Any(m => m.Name == part.MakeName))
+            {
+                this.ModelState.AddModelError(nameof(part.MakeName), "Make is invalid.");
+            }
+            if (!this.data.Models.Any(m => m.Name == part.ModelName))
+            {
+                this.ModelState.AddModelError(nameof(part.ModelName), "Model is invalid.");
+            }
+            if (!this.data.Categories.Any(c => c.Name == part.CategoryName))
+            {
+                this.ModelState.AddModelError(nameof(part.CategoryName), "Category is invalid.");
             }
 
-            return View(part);
+            if (!ModelState.IsValid)
+            {
+                return this.View(part);
+            }
+
+            var partToUpdate = this.data.Parts.FirstOrDefault(p => p.Make.Name == part.MakeName && p.Make.Name == part.MakeName && p.Category.Name == part.CategoryName);
+
+
+            partToUpdate.Name = part.Name;
+            partToUpdate.ImageUrl = part.ImageUrl;
+            partToUpdate.Price = part.Price;
+            partToUpdate.Quantity = part.Quantity;
+            partToUpdate.Description = part.Description;
+
+            this.data.SaveChanges();
+
+            return RedirectToAction("MyOffers", "Offers");
+        }
+        //
+        //Delete
+        [HttpGet]
+        [Authorize]
+        public IActionResult Delete(string partId)
+        {
+            if (partId==null)
+            {
+                return BadRequest();
+            }
+
+            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
+
+            this.data.Parts.Remove(part);
+            this.data.SaveChanges();
+
+            return RedirectToAction("MyOffers", "Offers");
         }
         //
         //private Methods
@@ -142,7 +220,7 @@ namespace Car_Parts.Controllers
         =>
      this.data
          .Models
-         .Where(m=>m.Make.Name==make)
+         .Where(m => m.Make.Name == make)
          .Select(p => new PartCategoryViewModel
          {
              Id = p.Id,

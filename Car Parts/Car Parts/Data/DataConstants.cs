@@ -1,3 +1,5 @@
+using System;
+
 namespace Car_Parts.Data
 {
     public class DataConstants
@@ -38,6 +40,8 @@ namespace Car_Parts.Data
 
             public const int NameMaxLength = 100;
             public const int NameMinLength = 2;
+            public const int MinYear = 1886;
+            public const int MaxYear = 2021;
         }
 
         public class Offer

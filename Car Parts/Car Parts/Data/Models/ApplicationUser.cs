@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
 namespace Car_Parts.Data.Models
 {
+    using Microsoft.AspNetCore.Identity;
+    using System.Collections.Generic;
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Part> Parts { get; set; } = new HashSet<Part>();

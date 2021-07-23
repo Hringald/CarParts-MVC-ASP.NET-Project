@@ -17,7 +17,8 @@
                 <a asp-controller="Shop" 
                    asp-action="ShopPage" 
                    asp-route-Make="@ViewBag.Make" 
-                   asp-route-Model="@ViewBag.Model" 
+                   asp-route-Model="@ViewBag.Model"
+                   asp-route-Year="@ViewBag.Year"
                    asp-route-Category="@category.Name">
                     <img style="width: 150px; max-width: 150px; height: 150px; max-height: 150px " src="@category.ImageUrl"
                          class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
