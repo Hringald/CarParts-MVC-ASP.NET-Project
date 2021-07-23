@@ -1,0 +1,56 @@
+@model EditPartFormModel
+
+@{
+    ViewBag.Title = "Edit Part";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="offset-md-2 mt-2 col-md-8 com-sm-12 mb-5">
+            <h2 class="heading-margin" text-center>@ViewBag.Title</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Add part name...">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl">Image Url</label>
+                    <input asp-for="ImageUrl" class="form-control" placeholder="Add image Url...">
+                    <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MakeName">Make</label>
+                    <input asp-for="MakeName" class="form-control" readonly>
+                    <span asp-validation-for="MakeName" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ModelName">Make</label>
+                    <input asp-for="ModelName" class="form-control" readonly>
+                    <span asp-validation-for="ModelName" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryName">Category</label>
+                    <input asp-for="CategoryName" class="form-control" readonly>
+                    <span asp-validation-for="CategoryName" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <input asp-for="Price" class="form-control" placeholder="Add part price...">
+                    <span asp-validation-for="Price" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Quantity">Quantity</label>
+                    <input asp-for="Quantity" min="1" max="100" class="form-control" placeholder="Add part quantity...">
+                    <span asp-validation-for="Quantity" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Add description..."></textarea>
+                    <span asp-validation-for="Description" class="small text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-success" value="Add">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>
