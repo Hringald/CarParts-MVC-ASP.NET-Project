@@ -102,6 +102,14 @@ namespace Car_Parts.Controllers
         {
             var part = this.data.Parts.FirstOrDefault(p => p.Id == id);
 
+            var isSeller = false;
+            if (part.SellerId==this.User.GetId())
+            {
+                isSeller = true;
+            }
+
+            ViewBag.IsSeller = isSeller;
+
             return View(part);
         }
         //
@@ -115,8 +123,11 @@ namespace Car_Parts.Controllers
             var model = this.data.Models.FirstOrDefault(m => m.Id == part.ModelId);
             var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
 
+            var categories = this.GetPartCategories();
+
             var partModel = new EditPartFormModel
             {
+                Id = part.Id,
                 Description = part.Description,
                 ImageUrl = part.ImageUrl,
                 MakeName = make.Name,
@@ -124,7 +135,8 @@ namespace Car_Parts.Controllers
                 Name = part.Name,
                 Price = part.Price,
                 Quantity = part.Quantity,
-                CategoryName = category.Name
+                CategoryId = category.Id,
+                Categories = categories,          
             };
 
 
@@ -143,17 +155,20 @@ namespace Car_Parts.Controllers
             {
                 this.ModelState.AddModelError(nameof(part.ModelName), "Model is invalid.");
             }
-            if (!this.data.Categories.Any(c => c.Name == part.CategoryName))
+            if (!this.data.Categories.Any(c => c.Id == part.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(part.CategoryName), "Category is invalid.");
+                this.ModelState.AddModelError(nameof(part.CategoryId), "Category is invalid.");
             }
 
             if (!ModelState.IsValid)
             {
+                part.Categories = this.GetPartCategories();
                 return this.View(part);
             }
 
-            var partToUpdate = this.data.Parts.FirstOrDefault(p => p.Make.Name == part.MakeName && p.Make.Name == part.MakeName && p.Category.Name == part.CategoryName);
+            var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
+
+            var partToUpdate = this.data.Parts.FirstOrDefault(p => p.Id == part.Id);
 
 
             partToUpdate.Name = part.Name;
@@ -161,10 +176,11 @@ namespace Car_Parts.Controllers
             partToUpdate.Price = part.Price;
             partToUpdate.Quantity = part.Quantity;
             partToUpdate.Description = part.Description;
+            partToUpdate.Category = category;
 
             this.data.SaveChanges();
 
-            return RedirectToAction("MyOffers", "Offers");
+            return RedirectToAction("MyParts", "Parts");
         }
         //
         //Delete
@@ -182,7 +198,23 @@ namespace Car_Parts.Controllers
             this.data.Parts.Remove(part);
             this.data.SaveChanges();
 
-            return RedirectToAction("MyOffers", "Offers");
+            return RedirectToAction("MyParts", "Parts");
+        }
+        //
+        //My Parts
+        public IActionResult MyParts()
+        {
+            var myParts = this.data.Parts
+                .Where(p => p.SellerId == this.User.GetId())
+                .Select(p => new OffersViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Quantity = p.Quantity
+                }).ToList();
+
+            return View(myParts);
         }
         //
         //private Methods

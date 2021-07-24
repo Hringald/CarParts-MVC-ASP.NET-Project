@@ -5,6 +5,7 @@ namespace Car_Parts.Models.Parts
     using static Data.DataConstants.Part;
     public class EditPartFormModel
     {
+        public string Id { get; set; }
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; init; }
@@ -17,7 +18,7 @@ namespace Car_Parts.Models.Parts
         [Display(Name = "Model")]
         public string ModelName { get; init; }
         [Display(Name = "Category")]
-        public string CategoryName { get; init; }
+        public string CategoryId { get; init; }
         [Required]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
         public string Description { get; init; }
@@ -27,5 +28,7 @@ namespace Car_Parts.Models.Parts
         [Required]
         [Range(typeof(decimal), "0.01", DecimalMaxValue, ErrorMessage = "Price must be a positive number.")]
         public decimal Price { get; init; }
+
+        public ICollection<PartCategoryViewModel> Categories { get; set; }
     }
 }

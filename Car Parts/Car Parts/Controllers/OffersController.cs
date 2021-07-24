@@ -16,17 +16,7 @@ namespace Car_Parts.Controllers
 
         public IActionResult MyOffers()
         {
-            var myOffers = this.data.Parts
-                .Where(p => p.SellerId == this.User.GetId())
-                .Select(p => new OffersViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    Quantity = p.Quantity
-                }).ToList();
-
-            return View(myOffers);
+            return View();
         }
     }
 }

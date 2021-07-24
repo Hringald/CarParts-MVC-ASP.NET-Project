@@ -9,6 +9,7 @@
         <div class="offset-md-2 mt-2 col-md-8 com-sm-12 mb-5">
             <h2 class="heading-margin" text-center>@ViewBag.Title</h2>
             <form method="post">
+                <input asp-for="Id" value="@Model.Id" hidden readonly>
                 <div class="form-group">
                     <label asp-for="Name">Name</label>
                     <input asp-for="Name" class="form-control" placeholder="Add part name...">
@@ -30,9 +31,14 @@
                     <span asp-validation-for="ModelName" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategoryName">Category</label>
-                    <input asp-for="CategoryName" class="form-control" readonly>
-                    <span asp-validation-for="CategoryName" class="small text-danger"></span>
+                    <label asp-for="CategoryId">Model</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        @foreach (var carCategory in Model.Categories)
+                        {
+                            <option value="@carCategory.Id">@carCategory.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="CategoryId" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Price">Price</label>
