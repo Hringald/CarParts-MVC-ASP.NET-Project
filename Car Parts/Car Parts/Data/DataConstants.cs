@@ -46,8 +46,19 @@ namespace Car_Parts.Data
 
         public class Offer
         {
-
             public const int NameMaxLength = 100;
+            public const int NameMinLength = 2;
+
+            public const string PhoneRegex = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$";
+
+            public const int AddressMinLength = 8;
+            public const int AddressMaxLength = 189;
+
+            public const int CityMinLength = 2;
+            public const int CityMaxLength = 189;
+
+            public const int ZipMinLength = 4;
+            public const int ZipMaxLength = 18;
         }
     }
 }

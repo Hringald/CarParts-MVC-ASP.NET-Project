@@ -1,6 +1,7 @@
 namespace Car_Parts.Controllers
 {
     using Car_Parts.Data;
+    using Car_Parts.Infrastructure;
     using Car_Parts.Models.Parts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -64,8 +65,9 @@ namespace Car_Parts.Controllers
                     Description = p.Description,
                     MakeName = p.Make.Name,
                     ModelName = p.Model.Name,
-                    Price = p.Price,
-                    Quantity = p.Quantity
+                    Price = p.Price.ToString("F2"),
+                    Quantity = p.Quantity,
+                    IsSeller = p.SellerId == this.User.GetId()? true:false
                 }).ToList();
 
             var partsModel = new AllPartsViewModel
@@ -78,6 +80,8 @@ namespace Car_Parts.Controllers
                 SearchTerm = query.SearchTerm,
                 CurrentPage = query.CurrentPage
             };
+
+
 
             return View(partsModel);
         }

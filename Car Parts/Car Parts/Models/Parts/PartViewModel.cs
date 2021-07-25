@@ -10,6 +10,7 @@ namespace Car_Parts.Models.Parts
         public string CategoryName { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
-        public decimal Price { get; set; }
+        public string Price { get; set; }
+        public bool IsSeller { get; set; }
     }
 }

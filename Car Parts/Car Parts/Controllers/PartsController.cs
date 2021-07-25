@@ -1,9 +1,9 @@
 using Car_Parts.Data;
 using Car_Parts.Data.Models;
 using Car_Parts.Infrastructure;
+using Car_Parts.Models.Offers;
 using Car_Parts.Models.Parts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,19 +98,48 @@ namespace Car_Parts.Controllers
 
         //Info
         [Authorize]
-        public IActionResult Info(string id)
+        public IActionResult Info(string partId)
         {
-            var part = this.data.Parts.FirstOrDefault(p => p.Id == id);
+            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
 
-            var isSeller = false;
-            if (part.SellerId==this.User.GetId())
+            var partModel = new AddOfferFormModel
             {
-                isSeller = true;
-            }
+                Id = part.Id,
+                Description = part.Description,
+                Price = part.Price.ToString("f2"),
+                ImageUrl = part.ImageUrl,
+                Name = part.Name,
+                Quantity = part.Quantity
+            };
 
-            ViewBag.IsSeller = isSeller;
+            return View(partModel);
+        }
+        //
+        [HttpPost]
+        [Authorize]
+        public IActionResult Info(AddOfferFormModel offerModel)
+        {
+            var part = this.data.Parts.FirstOrDefault(p => p.Id == offerModel.Id);
 
-            return View(part);
+            var seller = this.data.Users.FirstOrDefault(u => u.Id == part.SellerId);
+
+            var offer = new Offer
+            {
+                Name = offerModel.BuyerName,
+                Address = offerModel.Address,
+                City = offerModel.City,
+                Email = offerModel.Email,
+                Phone = offerModel.Phone,
+                ZipCode = int.Parse(offerModel.Zip),
+                Part = part,
+                PartId = part.Id,
+                SellerId = seller.Id
+            };
+
+            this.data.Offers.Add(offer);
+            this.data.SaveChanges();
+
+           return this.Redirect("/");
         }
         //
         //Edit
@@ -136,7 +165,7 @@ namespace Car_Parts.Controllers
                 Price = part.Price,
                 Quantity = part.Quantity,
                 CategoryId = category.Id,
-                Categories = categories,          
+                Categories = categories,
             };
 
 
@@ -188,7 +217,7 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult Delete(string partId)
         {
-            if (partId==null)
+            if (partId == null)
             {
                 return BadRequest();
             }
@@ -206,11 +235,11 @@ namespace Car_Parts.Controllers
         {
             var myParts = this.data.Parts
                 .Where(p => p.SellerId == this.User.GetId())
-                .Select(p => new OffersViewModel
+                .Select(p => new PartViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Price = p.Price,
+                    Price = p.Price.ToString("f2"),
                     Quantity = p.Quantity
                 }).ToList();
 
