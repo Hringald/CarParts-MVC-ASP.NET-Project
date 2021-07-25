@@ -1,19 +1,18 @@
 namespace Car_Parts.Controllers
 {
     using Car_Parts.Data;
-    using Car_Parts.Data.Models;
     using Car_Parts.Models.Admins;
     using Car_Parts.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
+    using Car_Parts.Services.Admins;
 
     public class AdminsController : Controller
     {
-        private readonly CarPartsDbContext data;
-        public AdminsController(CarPartsDbContext data)
+        private readonly IAdminsService admins;
+        public AdminsController(IAdminsService admins)
         {
-            this.data = data;
+            this.admins = admins;
         }
         [Authorize]
         public IActionResult Become() => this.View();
@@ -22,29 +21,18 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult Become(AddAdminFormModel admin)
         {
-            if (this.data.Admins.Any(a => a.UserId == this.User.GetId()))
+            if (this.admins.IsAdmin(this.User.GetId()))
             {
                 this.ModelState.AddModelError(nameof(admin.Name), "User is already admin.");
             }
-
-            var userIsAlreadyAdmin = this.data
-                .Admins
-                .Any(a => a.UserId == this.User.GetId());
 
             if (!ModelState.IsValid)
             {
                 return View(admin);
             }
 
-            var adminData = new Admin
-            {
-                Name = admin.Name,
-                UserId = this.User.GetId()
-            };
-
-            this.data.Admins.Add(adminData);
-            this.data.SaveChanges();
-
+            this.admins.AddAdmin(admin.Name, this.User.GetId());
+           
             return this.Redirect("/");
         }
     }

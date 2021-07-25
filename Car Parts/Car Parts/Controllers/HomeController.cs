@@ -1,31 +1,20 @@
 ﻿namespace Car_Parts.Controllers
 {
-    using Car_Parts.Data;
-    using Car_Parts.Infrastructure;
-    using Car_Parts.Models;
-    using Car_Parts.Models.Parts;
+    using Car_Parts.Services.Home;
     using Microsoft.AspNetCore.Mvc;
-    using System.Diagnostics;
-    using System.Linq;
+
 
     public class HomeController : Controller
     {
-        private readonly CarPartsDbContext data;
-        public HomeController(CarPartsDbContext data)
+        private readonly IHomeService home;
+        public HomeController(IHomeService home)
         {
-            this.data = data;
+            this.home = home;
         }
 
         public IActionResult Index()
         {
-
-            var makes = this.data.Makes
-                .Select(m => new PartCategoryViewModel
-                {
-                    Id = m.Id,
-                    Name = m.Name,
-                    ImageUrl = m.ImageUrl
-                }).ToList();
+            var makes = this.home.GetMakes();
 
             return View(makes);
         }

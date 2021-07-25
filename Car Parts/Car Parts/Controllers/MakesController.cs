@@ -1,40 +1,38 @@
 namespace Car_Parts.Controllers
 {
-    using Car_Parts.Data;
-    using Car_Parts.Data.Models;
     using Car_Parts.Infrastructure;
-    using Car_Parts.Models;
     using Car_Parts.Models.Parts;
+    using Car_Parts.Services.Admins;
+    using Car_Parts.Services.Makes;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     public class MakesController : Controller
     {
-        private readonly CarPartsDbContext data;
-        public MakesController(CarPartsDbContext data)
+        private readonly IAdminsService admins;
+        private readonly IMakesService makes;
+        public MakesController(IAdminsService admins, IMakesService makes)
         {
-            this.data = data;
+            this.admins = admins;
+            this.makes = makes;
         }
 
-        //Add Make
         [Authorize]
         public IActionResult AddMake()
         {
-            if (!this.UserIsAdmin())
+            if (!this.admins.IsAdmin(this.User.GetId()))
             {
                 return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
             }
+
             return this.View();
         }
+
         [HttpPost]
         [Authorize]
-        public IActionResult AddMake(AddMakeFormModel make/*, IFormFile makeImage*/)
+        public IActionResult AddMake(AddMakeFormModel makeModel/*, IFormFile makeImage*/)
         {
-            var adminId = this.data.Admins
-                .Where(a => a.UserId == this.User.GetId())
-                .Select(d => d.Id)
-                .FirstOrDefault();
+            var adminId = this.admins.GetAdminId(this.User.GetId());
 
             if (string.IsNullOrEmpty(adminId))
             {
@@ -46,31 +44,19 @@ namespace Car_Parts.Controllers
                 this.ModelState.AddModelError("makeImage", "The image is not valid it is required and should be less than 5mb.");
             }
             */
-            if (this.data.Makes.Any(m => m.Name == make.Name))
+            if (this.makes.MakeExists(makeModel))
             {
-                this.ModelState.AddModelError(nameof(make.Name), "Make already exists.");
+                this.ModelState.AddModelError(nameof(makeModel.Name), "Make already exists.");
             }
 
             if (!ModelState.IsValid)
             {
-                return this.View(make);
+                return this.View(makeModel);
             }
 
-            var makeModel = new Make
-            {
-                Name = make.Name,
-                ImageUrl = make.ImageUrl,
-                AdminId = adminId,      
-            };
-
-            this.data.Makes.Add(makeModel);
-            this.data.SaveChanges();
+            this.makes.AddMake(makeModel, adminId);
 
             return this.Redirect("/");
         }
-        //
-        //IsAdmin
-        private bool UserIsAdmin() => this.data.Admins
-                .Any(a => a.UserId == this.User.GetId());
     }
 }

@@ -1,12 +1,15 @@
-
 namespace Car_Parts
 {
     using Car_Parts.Data;
     using Car_Parts.Data.Models;
     using Car_Parts.Infrastructure;
+    using Car_Parts.Services.Admins;
+    using Car_Parts.Services.Home;
+    using Car_Parts.Services.Makes;
+    using Car_Parts.Services.Models;
+    using Car_Parts.Services.Offers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +40,12 @@ namespace Car_Parts
             })
                 .AddEntityFrameworkStores<CarPartsDbContext>();
             services.AddControllersWithViews();
+
+            services.AddTransient<IAdminsService, AdminsService>();
+            services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IMakesService, MakesService>();
+            services.AddTransient<IModelsService, ModelsService>();
+            services.AddTransient<IOffersService, OffersService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
