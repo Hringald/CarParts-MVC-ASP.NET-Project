@@ -3,7 +3,6 @@ namespace Car_Parts.Services.Models
     using Car_Parts.Data;
     using Car_Parts.Data.Models;
     using Car_Parts.Models.Parts;
-    using Car_Parts.Services.Makes;
     using System.Collections.Generic;
     using System.Linq;
 

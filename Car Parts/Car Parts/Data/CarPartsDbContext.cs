@@ -1,10 +1,9 @@
-﻿using Car_Parts.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-
-namespace Car_Parts.Data
+﻿namespace Car_Parts.Data
 {
+    using Car_Parts.Data.Models;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+
     public class CarPartsDbContext : IdentityDbContext
     {
         public CarPartsDbContext(DbContextOptions<CarPartsDbContext> options)

@@ -1,6 +1,5 @@
 namespace Car_Parts.Controllers
 {
-    using Car_Parts.Data;
     using Car_Parts.Models.Admins;
     using Car_Parts.Infrastructure;
     using Microsoft.AspNetCore.Authorization;

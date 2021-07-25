@@ -1,12 +1,11 @@
-using Car_Parts.Data.Models;
-using Car_Parts.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-
 namespace Car_Parts.Infrastructure
 {
+    using Car_Parts.Data.Models;
+    using Car_Parts.Data;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+    using System.Linq;
     public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder PrepareDatabase(this IApplicationBuilder app)

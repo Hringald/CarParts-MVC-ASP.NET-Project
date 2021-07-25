@@ -8,6 +8,8 @@ namespace Car_Parts
     using Car_Parts.Services.Makes;
     using Car_Parts.Services.Models;
     using Car_Parts.Services.Offers;
+    using Car_Parts.Services.Parts;
+    using Car_Parts.Services.Shop;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -46,6 +48,8 @@ namespace Car_Parts
             services.AddTransient<IMakesService, MakesService>();
             services.AddTransient<IModelsService, ModelsService>();
             services.AddTransient<IOffersService, OffersService>();
+            services.AddTransient<IPartsService, PartsService>();
+            services.AddTransient<IShopService, ShopService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

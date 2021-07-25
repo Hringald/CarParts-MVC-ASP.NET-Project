@@ -1,5 +1,3 @@
-
-
 namespace Car_Parts.Data.Models
 {
     using System;

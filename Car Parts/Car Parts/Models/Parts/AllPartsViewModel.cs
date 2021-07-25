@@ -1,4 +1,3 @@
-
 namespace Car_Parts.Models.Parts
 {
     using System.Collections.Generic;

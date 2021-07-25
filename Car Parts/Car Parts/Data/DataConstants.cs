@@ -1,5 +1,3 @@
-using System;
-
 namespace Car_Parts.Data
 {
     public class DataConstants

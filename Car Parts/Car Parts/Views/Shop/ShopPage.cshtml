@@ -78,7 +78,7 @@
                     <p style="margin:auto;margin-top:15px">Quantity: @part.Quantity</p><p style="margin:auto;margin-bottom:15px">Price: @part.Price$</p>
                     @if (part.IsSeller)
                     {
-                        <a asp-controller="Parts" asp-action="Edit" asp-route-id="@part.Id" class="btn btn-success">Edit</a>
+                        <a asp-controller="Parts" asp-action="Edit" asp-route-PartId="@part.Id" class="btn btn-success">Edit</a>
                     }
                     else
                     {

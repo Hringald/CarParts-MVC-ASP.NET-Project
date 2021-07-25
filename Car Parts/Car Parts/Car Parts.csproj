@@ -24,8 +24,4 @@
     <None Include="Views\Parts\AddPart.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Shop\" />
-  </ItemGroup>
-
 </Project>
