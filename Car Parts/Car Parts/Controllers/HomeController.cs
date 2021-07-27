@@ -18,5 +18,7 @@
 
             return View(makes);
         }
+
+        public IActionResult Error() => this.View();
     }
 }

@@ -12,6 +12,7 @@ namespace Car_Parts
     using Car_Parts.Services.Shop;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -35,13 +36,18 @@ namespace Car_Parts
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
+                options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
-                .AddEntityFrameworkStores<CarPartsDbContext>();
-            services.AddControllersWithViews();
+             .AddEntityFrameworkStores<CarPartsDbContext>();
+
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             services.AddTransient<IAdminsService, AdminsService>();
             services.AddTransient<IHomeService, HomeService>();
