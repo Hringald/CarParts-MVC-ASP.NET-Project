@@ -13,7 +13,7 @@ namespace Car_Parts.Data
 
             public const int NameMaxLength = 100;
             public const int NameMinLength = 2;
-            public const int DescriptionMaxLength = 200;
+            public const int DescriptionMaxLength = 1000;
             public const int DescriptionMinLength = 20;
             public const string DecimalMaxValue = "79228162514264337593543950335";
             public const int QuantityMinValue = 1;

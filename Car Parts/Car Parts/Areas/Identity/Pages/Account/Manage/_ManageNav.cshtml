@@ -1,6 +1,10 @@
-﻿@inject SignInManager<ApplicationUser> SignInManager
+﻿@using Car_Parts.Services.Admins
+@using Car_Parts.Infrastructure
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IAdminsService Admins
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var isAdmin = this.Admins.IsAdmin(User.GetId());
 }
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
@@ -12,6 +16,9 @@
     }
     <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
 </ul>
+@if (!isAdmin)
+{		 	
 <a type="button" class="btn btn-success"
    asp-controller="Admins"
    asp-action="Become">Become Admin</a>
+}

@@ -1,7 +1,5 @@
 ﻿@model ICollection<PartCategoryViewModel>;
-@{
-    ViewBag.Title = "Home Page";
-}
+@{ ViewBag.Title = "Home Page"; }
 @using Microsoft.AspNetCore.Identity;
 @using Car_Parts.Data.Models;
 @inject SignInManager<ApplicationUser> SignInManager
@@ -20,6 +18,7 @@
         <img style="width:90px;max-width:90px;height:90px;max-height:90px" src="@make.ImageUrl"
              class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
              data-placement="bottom" title="car.Year car.Model">
+        <p style="text-align:right">@make.Name<p>
     </a>
 </div>}
     </div>

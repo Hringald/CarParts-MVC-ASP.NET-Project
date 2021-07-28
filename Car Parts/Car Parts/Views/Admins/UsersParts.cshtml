@@ -1,0 +1,38 @@
+@model ICollection<UsersPartsViewModel>;
+@{
+    ViewData["Title"] = "Users Parts";
+}
+
+
+@if (!Model.Any())
+{
+    <h1>You don't have available offers.</h1>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Parts count</th>
+                <th scope="col">Edit parts</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.PartsCount</td>
+                    <td>
+                        <a type="button" class="btn btn-success"
+                           asp-controller="Admins"
+                           asp-action="EditParts"
+                           asp-route-UserId="@user.UserId"
+                           a>Edit parts</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

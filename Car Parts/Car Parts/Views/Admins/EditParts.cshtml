@@ -1,0 +1,48 @@
+@model EditPartsViewModel;
+@{
+    ViewData["Title"] = "Edit Parts";
+}
+
+
+@if (!Model.Parts.Any())
+{
+    <h1>@Model.UserName Doesn't have available parts.</h1>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Info</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var part in Model.Parts)
+            {
+                <tr>
+                    <td>@part.Name</td>
+                    <td>@part.Price$</td>
+                    <td>@part.Quantity</td>
+                    <td>
+                        <a type="button" class="btn btn-success"
+                           asp-controller="Admins"
+                           asp-action="EditPart"
+                           asp-route-PartId="@part.Id"
+                           a>Edit</a>
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-danger"
+                           asp-controller="Admins"
+                           asp-action="DeletePart"
+                           asp-route-PartId="@part.Id"
+                           a>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

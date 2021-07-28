@@ -6,13 +6,6 @@ namespace Car_Parts.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Discriminator",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.CreateTable(
                 name: "Admins",
                 columns: table => new
@@ -102,7 +95,7 @@ namespace Car_Parts.Data.Migrations
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     MakeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModelId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -237,10 +230,6 @@ namespace Car_Parts.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Admins");
-
-            migrationBuilder.DropColumn(
-                name: "Discriminator",
-                table: "AspNetUsers");
         }
     }
 }

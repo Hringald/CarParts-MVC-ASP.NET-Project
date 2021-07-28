@@ -1,0 +1,42 @@
+@model ICollection<EditModelsViewModel>;
+@{ ViewData["Title"] = "Edit Models"; }
+
+
+@if (!Model.Any())
+{
+<h1>There are no available models.</h1> }
+else
+{
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Make Name</th>
+            <th scope="col">Model Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var carModel in Model)
+        {
+        <tr>
+            <td>@carModel.MakeName</td>
+            <td>@carModel.ModelName</td>
+            <td>
+                <a type="button" class="btn btn-success"
+                   asp-controller="Admins"
+                   asp-action="EditModel"
+                   asp-route-ModelId="@carModel.Id"
+                   a>Edit</a>
+            </td>
+            <td>
+                <a type="button" class="btn btn-danger"
+                   asp-controller="Admins"
+                   asp-action="DeleteModel"
+                   asp-route-ModelId="@carModel.Id"
+                   a>Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>}
