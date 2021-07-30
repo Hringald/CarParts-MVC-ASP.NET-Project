@@ -5,24 +5,24 @@ namespace Car_Parts.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Car_Parts.Services.Admins;
-    using Car_Parts.Data;
     using Car_Parts.Services.Models;
     using Car_Parts.Services.Parts;
     using System.Linq;
     using Car_Parts.Models.Parts;
+    using Car_Parts.Services.Makes;
 
     public class AdminsController : Controller
     {
-        private readonly CarPartsDbContext data;
         private readonly IAdminsService admins;
         private readonly IModelsService models;
         private readonly IPartsService parts;
-        public AdminsController(IAdminsService admins, IModelsService models, IPartsService parts, CarPartsDbContext data)
+        private readonly IMakesService makes;
+        public AdminsController(IAdminsService admins, IModelsService models, IPartsService parts, IMakesService makes)
         {
             this.admins = admins;
-            this.data = data;
             this.models = models;
             this.parts = parts;
+            this.makes = makes;
         }
         [Authorize]
         public IActionResult Become() => this.View();
@@ -48,22 +48,14 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult EditMakes()
         {
-            var makes = this.data
-                .Makes
-                .Select(m => new EditMakesViewModel
-                {
-                    Id = m.Id,
-                    Name = m.Name
-                })
-                .OrderByDescending(m => m.Name)
-                .ToList();
+            var makes = this.parts.GetMakes();
 
             return this.View(makes);
         }
         [Authorize]
         public IActionResult EditMake(string makeId)
         {
-            var make = this.data.Makes.FirstOrDefault(m => m.Id == makeId);
+            var make = this.makes.GetMakeById(makeId);
 
             var makeModel = new EditMakeFormModel
             {
@@ -85,12 +77,7 @@ namespace Car_Parts.Controllers
                 return this.View(makeModel);
             }
 
-            var make = this.data.Makes.FirstOrDefault(m => m.Id == makeModel.Id);
-
-            make.Name = makeModel.Name;
-            make.ImageUrl = makeModel.ImageUrl;
-
-            this.data.SaveChanges();
+            this.makes.EditMake(makeModel,this.admins.GetAdminId(this.User.GetId()));
 
             return RedirectToAction("EditMakes", "Admins");
         }
@@ -98,11 +85,7 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult DeleteMake(string makeId)
         {
-            var make = this.data.Makes.FirstOrDefault(m => m.Id == makeId);
-
-            this.data.Makes.Remove(make);
-
-            this.data.SaveChanges();
+            this.makes.DeleteMake(makeId);
 
             return RedirectToAction("EditMakes", "Admins");
         }
@@ -110,24 +93,14 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult EditModels()
         {
-            var models = this.data
-                .Models
-                .Select(m => new EditModelsViewModel
-                {
-                    Id = m.Id,
-                    MakeName = m.Make.Name,
-                    ModelName = m.Name
-                })
-                .OrderByDescending(m => m.MakeName)
-                .ThenByDescending(m => m.ModelName)
-                .ToList();
+            var models = this.models.GetEditModelInfo();
 
             return this.View(models);
         }
         [Authorize]
-        public IActionResult EditModel(string ModelId)
+        public IActionResult EditModel(string modelId)
         {
-            var model = this.data.Models.FirstOrDefault(m => m.Id == ModelId);
+            var model = this.models.GetModelById(modelId);
 
             var modelModel = new EditModelFormModel
             {
@@ -149,7 +122,9 @@ namespace Car_Parts.Controllers
                 return this.Redirect("/");
             }
 
-            if (!this.data.Makes.Any(m => m.Id == modelModel.MakeId))
+            var make = this.makes.GetMakeById(modelModel.MakeId);
+
+            if (!this.parts.isMakeValid(make.Name))
             {
                 this.ModelState.AddModelError(nameof(modelModel.MakeId), "Make is invalid.");
             }
@@ -161,53 +136,29 @@ namespace Car_Parts.Controllers
                 return this.View(modelModel);
             }
 
-            var model = this.data.Models.FirstOrDefault(m => m.Id == modelModel.Id);
-            var make = this.data.Makes.FirstOrDefault(m => m.Id == modelModel.MakeId);
-
-            model.Name = modelModel.Name;
-            model.Make = make;
-            model.MakeId = make.Id;
-            model.ImageUrl = modelModel.ImageUrl;
-
-            this.data.SaveChanges();
+            this.models.EditModel(modelModel,this.admins.GetAdminId(this.User.GetId()));
 
             return this.RedirectToAction("EditModels", "Admins");
         }
         [HttpGet]
         [Authorize]
-        public IActionResult DeleteModel(string ModelId)
+        public IActionResult DeleteModel(string modelId)
         {
-            var model = this.data.Models.FirstOrDefault(m => m.Id == ModelId);
-
-            this.data.Models.Remove(model);
-
-            this.data.SaveChanges();
+            this.models.DeleteModel(modelId);
 
             return this.RedirectToAction("EditModels", "Admins");
         }
         [Authorize]
         public IActionResult UsersParts()
         {
-            var users = this.data
-                .Users
-                .Where(u => !this.data.Admins.Any(a => a.UserId == u.Id))
-                .Select(u => new UsersPartsViewModel
-                {
-                    UserId = u.Id,
-                    PartsCount = u.Parts.Count(),
-                    UserName = u.UserName
-                })
-                .OrderByDescending(u => u.UserName)
-                .ToList();
-
-
+            var users = this.admins.GetUsersInfo();
 
             return this.View(users);
         }
         [Authorize]
         public IActionResult EditParts(string userId)
         {
-            var user = this.data.Users.FirstOrDefault(u => u.Id == userId);
+            var user = this.admins.GetUserById(userId);
 
             var partsViewModel = new EditPartsViewModel
             {
@@ -221,27 +172,7 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult EditPart(string partId)
         {
-            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
-
-            var make = this.data.Makes.FirstOrDefault(m => m.Id == part.MakeId);
-            var model = this.data.Models.FirstOrDefault(m => m.Id == part.ModelId);
-            var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
-
-            var categories = this.parts.GetCategories();
-
-            var partModel = new EditPartFormModel
-            {
-                Id = part.Id,
-                Description = part.Description,
-                ImageUrl = part.ImageUrl,
-                MakeName = make.Name,
-                ModelName = model.Name,
-                Name = part.Name,
-                Price = part.Price,
-                Quantity = part.Quantity,
-                CategoryId = category.Id,
-                Categories = categories,
-            };
+            var partModel = this.parts.GetEditPartInfo(partId);
 
             return this.View(partModel);
         }
@@ -249,19 +180,7 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult EditPart(EditPartFormModel part)
         {
-            var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
-
-            var partToUpdate = this.data.Parts.FirstOrDefault(p => p.Id == part.Id);
-
-
-            partToUpdate.Name = part.Name;
-            partToUpdate.ImageUrl = part.ImageUrl;
-            partToUpdate.Price = part.Price;
-            partToUpdate.Quantity = part.Quantity;
-            partToUpdate.Description = part.Description;
-            partToUpdate.Category = category;
-
-            this.data.SaveChanges();
+            this.parts.EditPart(part);
 
             return this.RedirectToAction("UsersParts", "Admins");
         }
@@ -269,11 +188,7 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult DeletePart(string partId)
         {
-            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
-
-            this.data.Parts.Remove(part);
-
-            this.data.SaveChanges();
+            this.parts.Delete(partId);
 
             return this.RedirectToAction("UsersParts", "Admins");
         }

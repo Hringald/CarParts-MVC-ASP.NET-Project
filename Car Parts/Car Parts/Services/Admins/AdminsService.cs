@@ -2,6 +2,8 @@ namespace Car_Parts.Services.Admins
 {
     using Car_Parts.Data;
     using Car_Parts.Data.Models;
+    using Car_Parts.Models.Admins;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class AdminsService : IAdminsService
@@ -30,7 +32,25 @@ namespace Car_Parts.Services.Admins
                 .Select(d => d.Id)
                 .FirstOrDefault();
 
-        public bool IsAdmin(string userId)
+        public ApplicationUser GetUserById(string userId)
+        => this.data
+               .Users
+               .FirstOrDefault(u => u.Id == userId);
+
+        public ICollection<UsersPartsViewModel> GetUsersInfo()
+            => this.data
+                .Users
+                .Where(u => !this.data.Admins.Any(a => a.UserId == u.Id))
+                .Select(u => new UsersPartsViewModel
+                {
+                    UserId = u.Id,
+                    PartsCount = u.Parts.Count(),
+                    UserName = u.UserName
+                })
+                .OrderByDescending(u => u.UserName)
+                .ToList();
+
+    public bool IsAdmin(string userId)
              => this.data.Admins
                 .Any(d => d.UserId == userId);
     }

@@ -1,5 +1,6 @@
 namespace Car_Parts.Services.Parts
 {
+    using Car_Parts.Data.Models;
     using Car_Parts.Models.Offers;
     using Car_Parts.Models.Parts;
     using System.Collections.Generic;
@@ -7,6 +8,7 @@ namespace Car_Parts.Services.Parts
     public interface IPartsService
     {
         public void AddPart(AddPartFormModel part, string sellerId);
+        public Part GetPartById(string partId);
         public ICollection<PartCategoryViewModel> GetMakes();
         public ICollection<PartCategoryViewModel> GetCategories();
         public ICollection<PartCategoryViewModel> GetModels(string make);
@@ -17,6 +19,7 @@ namespace Car_Parts.Services.Parts
         public EditPartFormModel GetEditPartInfo(string partId);
         public void AddOffer(AddOfferFormModel offerModel);
         public void EditPart(EditPartFormModel part);
+
 
         public bool isMakeValid(string makeName);
         public bool isModelValid(string modelId);

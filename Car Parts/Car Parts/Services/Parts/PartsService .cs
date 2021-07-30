@@ -2,6 +2,7 @@ namespace Car_Parts.Services.Parts
 {
     using Car_Parts.Data;
     using Car_Parts.Data.Models;
+    using Car_Parts.Models.Admins;
     using Car_Parts.Models.Offers;
     using Car_Parts.Models.Parts;
     using System.Collections.Generic;
@@ -31,12 +32,15 @@ namespace Car_Parts.Services.Parts
 
         public ICollection<PartCategoryViewModel> GetMakes()
             => this.data.Makes
+             .Where(m => m.Models.Any())
              .Select(m => new PartCategoryViewModel
              {
                  Id = m.Id,
                  Name = m.Name,
                  ImageUrl = m.ImageUrl
-             }).ToList();
+             })            
+            .OrderByDescending(m => m.Name)
+            .ToList();
 
         public ICollection<PartCategoryViewModel> GetModels(string make)
           =>
@@ -185,7 +189,7 @@ namespace Car_Parts.Services.Parts
 
         public void Delete(string partId)
         {
-            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
+            var part = this.GetPartById(partId);
 
             this.data.Parts.Remove(part);
             this.data.SaveChanges();
@@ -201,5 +205,11 @@ namespace Car_Parts.Services.Parts
                     Price = p.Price.ToString("f2"),
                     Quantity = p.Quantity
                 }).ToList();
+
+
+        public Part GetPartById(string partId)
+           => this.data
+                  .Parts
+                  .FirstOrDefault(p => p.Id == partId);
     }
 }
