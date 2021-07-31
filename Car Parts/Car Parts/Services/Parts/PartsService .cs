@@ -5,15 +5,18 @@ namespace Car_Parts.Services.Parts
     using Car_Parts.Models.Admins;
     using Car_Parts.Models.Offers;
     using Car_Parts.Models.Parts;
+    using Car_Parts.Services.Makes;
     using System.Collections.Generic;
     using System.Linq;
 
     public class PartsService : IPartsService
     {
         private readonly CarPartsDbContext data;
-        public PartsService(CarPartsDbContext data)
+        private readonly IMakesService makes;
+        public PartsService(CarPartsDbContext data, IMakesService makes)
         {
             this.data = data;
+            this.makes = makes;
         }
 
         public ICollection<PartCategoryViewModel> GetCategories()
@@ -90,12 +93,18 @@ namespace Car_Parts.Services.Parts
 
         public AddOfferFormModel GetPartInfo(string partId)
         {
-            var part = this.data.Parts.FirstOrDefault(p => p.Id == partId);
+            var part = this.GetPartById(partId);
+
+            var make = this.makes.GetMakeById(part.MakeId);
+
+            var category = this.data.Categories.FirstOrDefault(c => c.Id == part.CategoryId);
 
             var partModel = new AddOfferFormModel
             {
                 Id = part.Id,
                 Description = part.Description,
+                MakeName = make.Name,
+                CategoryName = category.Name,
                 Price = part.Price.ToString("f2"),
                 ImageUrl = part.ImageUrl,
                 Name = part.Name,
@@ -196,15 +205,21 @@ namespace Car_Parts.Services.Parts
         }
 
         public ICollection<PartViewModel> GetMyParts(string userId)
-         => this.data.Parts
-                .Where(p => p.SellerId == userId)
-                .Select(p => new PartViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price.ToString("f2"),
-                    Quantity = p.Quantity
-                }).ToList();
+        {
+           return this.data.Parts
+                  .Where(p => p.SellerId == userId)
+                  .Select(p => new PartViewModel
+                  {
+                      Id = p.Id,
+                      Name = p.Name,
+                      MakeName = p.Make.Name,
+                      CategoryName = p.Category.Name,
+                      Price = p.Price.ToString("f2"),
+                      Quantity = p.Quantity
+                  })
+                  .OrderByDescending(p=>p.MakeName)
+                  .ToList();
+        }
 
 
         public Part GetPartById(string partId)

@@ -23,16 +23,16 @@
                     <span asp-validation-for="MakeName" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ModelName">Make</label>
+                    <label asp-for="ModelName">Model</label>
                     <input asp-for="ModelName" class="form-control" readonly>
                     <span asp-validation-for="ModelName" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategoryId">Model</label>
+                    <label asp-for="CategoryId">Category</label>
                     <select asp-for="CategoryId" class="form-control">
                         @foreach (var carCategory in Model.Categories)
                         {
-                            <option value="carCategory.Id">carCategory.Name</option>
+                            <option value="carCategory.Id">@carCategory.Name</option>
                         }
                     </select>
                     <span asp-validation-for="CategoryId" class="small text-danger"></span>

@@ -13,7 +13,9 @@ else
     <table class="table">
         <thead class="thead-dark">
             <tr>
+                <th scope="col">Make</th>
                 <th scope="col">Name</th>
+                <th scope="col">Category</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Info</th>
@@ -23,25 +25,27 @@ else
         <tbody>
             @foreach (var part in Model)
             {
-                <tr>
-                    <td>@part.Name</td>
-                    <td>@part.Price$</td>
-                    <td>@part.Quantity</td>
-                    <td>
-                        <a type="button" class="btn btn-success"
-                           asp-controller="Parts"
-                           asp-action="Edit"
-                           asp-route-PartId="@part.Id"
-                           a>Edit</a>
-                    </td>
-                    <td>
-                        <a type="button" class="btn btn-danger"
-                           asp-controller="Parts"
-                           asp-action="Delete"
-                           asp-route-PartId="@part.Id"
-                           a>Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@part.MakeName</td>
+                <td>@part.Name</td>
+                <td>@part.CategoryName</td>
+                <td>@part.Price$</td>
+                <td>@part.Quantity</td>
+                <td>
+                    <a type="button" class="btn btn-success"
+                       asp-controller="Parts"
+                       asp-action="Edit"
+                       asp-route-PartId="@part.Id"
+                       a>Edit</a>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-danger"
+                       asp-controller="Parts"
+                       asp-action="Delete"
+                       asp-route-PartId="@part.Id"
+                       a>Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
