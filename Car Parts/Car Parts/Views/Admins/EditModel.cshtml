@@ -1,8 +1,6 @@
 @model EditModelFormModel
 
-@{
-    ViewData["Title"] = "Edit Model";
-}
+@{ ViewData["Title"] = "Edit Model"; }
 
 <div class="container">
     <div class="row">
@@ -32,7 +30,8 @@
                     <select asp-for="MakeId" class="form-control">
                         @foreach (var carModel in Model.Makes)
                         {
-            <option value="@carModel.Id">@carModel.Name</option>}
+            <option value="@carModel.Id">@carModel.Name</option>
+}
                     </select>
                     <span asp-validation-for="MakeId" class="small text-danger"></span>
                 </div>

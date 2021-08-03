@@ -1,7 +1,7 @@
 namespace Car_Parts.Services.Models
 {
+    using Car_Parts.Areas.Admins.Models;
     using Car_Parts.Data.Models;
-    using Car_Parts.Models.Admins;
     using Car_Parts.Models.Parts;
     using System.Collections.Generic;
 

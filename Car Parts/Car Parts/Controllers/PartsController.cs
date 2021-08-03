@@ -6,14 +6,18 @@ namespace Car_Parts.Controllers
     using Car_Parts.Services.Parts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
-
+    using Microsoft.Extensions.Caching.Memory;
+    using System;
+    using System.Collections.Generic;
+    using static WebConstants;
     public class PartsController : Controller
     {
         private readonly IPartsService parts;
-        public PartsController(IPartsService parts)
+        private readonly IMemoryCache cache;
+        public PartsController(IPartsService parts, IMemoryCache cache)
         {
             this.parts = parts;
+            this.cache = cache;
         }
 
         public IActionResult ChooseMake()
@@ -26,12 +30,34 @@ namespace Car_Parts.Controllers
         [Authorize]
         public IActionResult AddPart(string make)
         {
+            const string getCategoriesCacheKey = "GetCategoriesCacheKey";
+            const string getModelsCacheKey = "GetModelsCacheKey";
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+            var categories = this.cache.Get<ICollection<PartCategoryViewModel>>(getCategoriesCacheKey);
+            var models = this.cache.Get<ICollection<PartCategoryViewModel>>(getModelsCacheKey);
+
+            if (categories == null)
+            {
+                categories = this.parts.GetCategories();
+
+                this.cache.Set(getCategoriesCacheKey, categories, cacheOptions);
+            }
+
+            if (models == null)
+            {
+                models = this.parts.GetModels(make);
+
+                this.cache.Set(getCategoriesCacheKey, models, cacheOptions);
+            }
 
             return View(new AddPartFormModel
             {
                 MakeName = make,
-                Categories = this.parts.GetCategories(),
-                Models = this.parts.GetModels(make)
+                Categories = categories,
+                Models = models
             });
         }
         [HttpPost]
@@ -60,6 +86,8 @@ namespace Car_Parts.Controllers
             
             this.parts.AddPart(part, this.User.GetId());
 
+            this.TempData[GlobalMessageKey] = "Part Added Successfully";
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -78,6 +106,8 @@ namespace Car_Parts.Controllers
         {
 
             this.parts.AddOffer(offerModel);
+
+            this.TempData[GlobalMessageKey] = "Offer send Successfully";
 
             return this.Redirect("/");
         }
@@ -115,6 +145,8 @@ namespace Car_Parts.Controllers
 
             this.parts.EditPart(part);
 
+            this.TempData[GlobalMessageKey] = "Part Edited Successfully";
+
             return RedirectToAction("MyParts", "Parts");
         }
 
@@ -128,6 +160,8 @@ namespace Car_Parts.Controllers
             }
 
             this.parts.Delete(partId);
+
+            this.TempData[GlobalMessageKey] = "Part Deleted Successfully";
 
             return RedirectToAction("MyParts", "Parts");
         }

@@ -19,24 +19,23 @@ else
     <tbody>
         @foreach (var carModel in Model)
         {
-        <tr>
-            <td>@carModel.MakeName</td>
-            <td>@carModel.ModelName</td>
-            <td>
-                <a type="button" class="btn btn-success"
-                   asp-controller="Admins"
-                   asp-action="EditModel"
-                   asp-route-ModelId="@carModel.Id"
-                   a>Edit</a>
-            </td>
-            <td>
-                <a type="button" class="btn btn-danger"
-                   asp-controller="Admins"
-                   asp-action="DeleteModel"
-                   asp-route-ModelId="@carModel.Id"
-                   a>Delete</a>
-            </td>
-        </tr>
-}
+<tr>
+    <td>@carModel.MakeName</td>
+    <td>@carModel.ModelName</td>
+    <td>
+        <a type="button" class="btn btn-success"
+           asp-controller="Admins"
+           asp-action="EditModel"
+           asp-route-ModelId="@carModel.Id"
+           a>Edit</a>
+    </td>
+    <td>
+        <a type="button" class="btn btn-danger"
+           asp-controller="Admins"
+           asp-action="DeleteModel"
+           asp-route-ModelId="@carModel.Id"
+           a>Delete</a>
+    </td>
+</tr>}
     </tbody>
 </table>}

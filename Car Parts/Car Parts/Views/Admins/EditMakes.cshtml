@@ -1,44 +1,39 @@
 @model ICollection<PartCategoryViewModel>;
-@{
-    ViewData["Title"] = "Edit Makes";
-}
+@{ ViewData["Title"] = "Edit Makes"; }
 
 
 @if (!Model.Any())
 {
-<h1>There are no available makes.</h1>
-}
-else
-{
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Edit</th>
-                <th scope="col">Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var make in Model)
+<h1>There are no available makes.</h1> }
+            else
             {
-            <tr>
-                <td>@make.Name</td>
-                <td>
-                    <a type="button" class="btn btn-success"
-                       asp-controller="Admins"
-                       asp-action="EditMake"
-                       asp-route-MakeId="@make.Id"
-                       a>Edit</a>
-                </td>
-                <td>
-                    <a type="button" class="btn btn-danger"
-                       asp-controller="Admins"
-                       asp-action="DeleteMake"
-                       asp-route-MakeId="@make.Id"
-                       a>Delete</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-}
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var make in Model)
+        {
+<tr>
+    <td>@make.Name</td>
+    <td>
+        <a type="button" class="btn btn-success"
+           asp-controller="Admins"
+           asp-action="EditMake"
+           asp-route-MakeId="@make.Id"
+           a>Edit</a>
+    </td>
+    <td>
+        <a type="button" class="btn btn-danger"
+           asp-controller="Admins"
+           asp-action="DeleteMake"
+           asp-route-MakeId="@make.Id"
+           a>Delete</a>
+    </td>
+</tr>}
+    </tbody>
+</table>}

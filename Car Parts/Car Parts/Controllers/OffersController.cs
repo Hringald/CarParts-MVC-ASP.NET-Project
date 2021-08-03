@@ -4,7 +4,7 @@ namespace Car_Parts.Controllers
     using Car_Parts.Services.Offers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
+    using static WebConstants;
     public class OffersController : Controller
     {
         private readonly IOffersService offers;
@@ -35,6 +35,8 @@ namespace Car_Parts.Controllers
         {
             this.offers.Sell(partId, offerId);
 
+            this.TempData[GlobalMessageKey] = "Part Selled Successfully";
+
             return this.RedirectToAction("MyOffers", "Offers");
         }
         [HttpGet]
@@ -42,6 +44,8 @@ namespace Car_Parts.Controllers
         public IActionResult Decline(string offerId)
         {
             this.offers.Decline(offerId);
+
+            this.TempData[GlobalMessageKey] = "Offer Declined";
 
             return this.RedirectToAction("MyOffers", "Offers");
         }
