@@ -1,4 +1,4 @@
-namespace Car_Parts.Areas.Admins.Models
+namespace Car_Parts.Models.Admins
 {
     public class EditModelsViewModel
     {

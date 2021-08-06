@@ -28,4 +28,9 @@
     <None Include="Views\Parts\AddPart.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admins\Models\" />
+    <Folder Include="Areas\Admins\Views\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,5 @@
 namespace Car_Parts.Controllers
 {
-    using Car_Parts.Areas.Admins.Models;
     using Car_Parts.Infrastructure;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -13,6 +12,7 @@ namespace Car_Parts.Controllers
     using Microsoft.Extensions.Caching.Memory;
     using System.Collections.Generic;
     using System;
+    using Car_Parts.Models.Admins;
 
     public class AdminsController : Controller
     {

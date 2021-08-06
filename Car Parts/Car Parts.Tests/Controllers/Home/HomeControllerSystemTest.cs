@@ -1,4 +1,4 @@
-﻿namespace Car_Parts.Tests.Controller
+﻿namespace Car_Parts.Tests.Controllers.Home
 {
     using Car_Parts;
     using Microsoft.AspNetCore.Mvc.Testing;

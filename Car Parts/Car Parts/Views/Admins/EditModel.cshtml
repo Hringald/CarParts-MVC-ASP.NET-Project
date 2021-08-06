@@ -30,8 +30,7 @@
                     <select asp-for="MakeId" class="form-control">
                         @foreach (var carModel in Model.Makes)
                         {
-            <option value="@carModel.Id">@carModel.Name</option>
-}
+            <option value="@carModel.Id">@carModel.Name</option>}
                     </select>
                     <span asp-validation-for="MakeId" class="small text-danger"></span>
                 </div>

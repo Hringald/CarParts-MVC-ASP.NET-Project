@@ -6,7 +6,6 @@
     using Microsoft.Extensions.Caching.Memory;
     using System;
     using System.Collections.Generic;
-
     public class HomeController : Controller
     {
         private readonly IHomeService home;

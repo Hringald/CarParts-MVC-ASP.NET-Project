@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Car_Parts.Data.Migrations
+﻿namespace Car_Parts.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

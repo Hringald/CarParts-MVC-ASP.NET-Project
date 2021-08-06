@@ -1,8 +1,8 @@
 namespace Car_Parts.Services.Admins
 {
-    using Car_Parts.Areas.Admins.Models;
     using Car_Parts.Data;
     using Car_Parts.Data.Models;
+    using Car_Parts.Models.Admins;
     using System.Collections.Generic;
     using System.Linq;
 
