@@ -1,9 +1,8 @@
-using Car_Parts.Data.Models;
-using Car_Parts.Models.Admins;
-using System.Collections.Generic;
-
 namespace Car_Parts.Services.Admins
 {
+    using Car_Parts.Data.Models;
+    using Car_Parts.Models.Admins;
+    using System.Collections.Generic;
     public interface IAdminsService
     {
         public bool IsAdmin(string userId);

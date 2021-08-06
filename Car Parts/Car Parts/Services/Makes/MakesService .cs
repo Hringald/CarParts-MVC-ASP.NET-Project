@@ -1,4 +1,4 @@
-namespace Car_Parts.Services.Admins
+namespace Car_Parts.Services.Makes
 {
     using Car_Parts.Data;
     using Car_Parts.Data.Models;

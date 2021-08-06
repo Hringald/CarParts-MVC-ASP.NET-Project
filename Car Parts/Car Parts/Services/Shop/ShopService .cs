@@ -1,8 +1,6 @@
 namespace Car_Parts.Services.Shop
 {
     using Car_Parts.Data;
-    using Car_Parts.Data.Models;
-    using Car_Parts.Models.Offers;
     using Car_Parts.Models.Parts;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
