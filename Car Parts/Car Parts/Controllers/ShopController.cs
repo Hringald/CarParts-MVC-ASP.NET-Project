@@ -6,7 +6,6 @@ namespace Car_Parts.Controllers
     using Car_Parts.Services.Shop;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
     public class ShopController : Controller
     {
         private readonly IShopService shop;

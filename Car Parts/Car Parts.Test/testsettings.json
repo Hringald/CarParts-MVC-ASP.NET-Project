@@ -3,5 +3,7 @@
     "DefaultConnection": "My Fake Connection String"
   },
   "AllowedHosts": "*",
-  "General:AutomaticStartup": false
+  "General:AutomaticStartup": false,
+  "General:NoStartup": true,
+  "General:WebAssemblyName":  "Car_Parts"
 }
