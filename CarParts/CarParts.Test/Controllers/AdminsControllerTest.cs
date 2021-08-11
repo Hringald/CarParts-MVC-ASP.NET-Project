@@ -1,14 +1,14 @@
 ﻿namespace CarParts.Test.Controllers
 {
     using MyTested.AspNetCore.Mvc;
-    using CarParts.Controllers;
+    using CarParts.Areas.Admin.Controllers;
     using Xunit;
     using CarParts.Data.Models;
     using static WebConstants.Cache;
     using System;
     using CarParts.Models.Parts;
     using System.Collections.Generic;
-    using CarParts.Models.Admins;
+    using CarParts.Areas.Admin.Views.Models;
     using FluentAssertions;
     using static Data.Parts;
     using CarParts.Test.Data;

@@ -1,4 +1,4 @@
-namespace CarParts.Models.Admins
+namespace CarParts.Areas.Admin.Views.Models
 {
     using System.ComponentModel.DataAnnotations;
     using static Data.DataConstants.Admin;

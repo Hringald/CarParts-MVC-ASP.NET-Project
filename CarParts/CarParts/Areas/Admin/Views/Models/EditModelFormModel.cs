@@ -1,4 +1,4 @@
-namespace CarParts.Models.Admins
+namespace CarParts.Areas.Admin.Views.Models
 {
     using static Data.DataConstants.Model;
     using System.Collections.Generic;

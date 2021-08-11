@@ -2,7 +2,7 @@ namespace CarParts.Services.Models
 {
     using CarParts.Data;
     using CarParts.Data.Models;
-    using CarParts.Models.Admins;
+    using CarParts.Areas.Admin.Views.Models;
     using CarParts.Models.Parts;
     using CarParts.Services.Makes;
     using System.Collections.Generic;

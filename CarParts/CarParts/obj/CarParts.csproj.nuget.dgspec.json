@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts\\CarParts\\CarParts\\CarParts.csproj": {}
+    "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts\\CarParts\\CarParts\\CarParts.csproj": {
+    "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts\\CarParts\\CarParts\\CarParts.csproj",
+        "projectUniqueName": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj",
         "projectName": "CarParts",
-        "projectPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts\\CarParts\\CarParts\\CarParts.csproj",
+        "projectPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj",
         "packagesPath": "C:\\Users\\Antonio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts\\CarParts\\CarParts\\obj\\",
+        "outputPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Antonio\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -63,6 +63,10 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[5.0.8, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             }
           },
           "imports": [

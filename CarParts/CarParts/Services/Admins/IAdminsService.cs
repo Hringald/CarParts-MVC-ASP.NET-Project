@@ -1,7 +1,7 @@
 namespace CarParts.Services.Admins
 {            
     using CarParts.Data.Models;
-    using CarParts.Models.Admins;
+    using CarParts.Areas.Admin.Views.Models;
     using System.Collections.Generic;
     public interface IAdminsService
     {

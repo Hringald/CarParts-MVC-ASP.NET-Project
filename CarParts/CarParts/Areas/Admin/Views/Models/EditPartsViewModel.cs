@@ -1,4 +1,4 @@
-namespace CarParts.Models.Admins
+namespace CarParts.Areas.Admin.Views.Models
 {
     using CarParts.Models.Parts;
     using System.Collections.Generic;

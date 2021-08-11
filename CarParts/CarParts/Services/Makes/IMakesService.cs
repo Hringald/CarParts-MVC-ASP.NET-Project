@@ -1,7 +1,7 @@
 namespace CarParts.Services.Makes
 {
     using CarParts.Data.Models;
-    using CarParts.Models.Admins;
+    using CarParts.Areas.Admin.Views.Models;
     using CarParts.Models.Parts;
     public interface IMakesService
     {

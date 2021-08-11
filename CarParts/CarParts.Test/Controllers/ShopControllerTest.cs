@@ -46,7 +46,7 @@
                   .Instance()
          .WithData(data => data
          .WithEntities(entities => entities.AddRange(
-         new Make { Id = "MakeTestId", Name = "TestMakeName" },s
+         new Make { Id = "MakeTestId", Name = "TestMakeName" },
          new Model { Id = "ModelTestId", Name = "TestModelName" },
          new Category { Id = "CategoryTestId" },
          new Part { Id = "PartTestId", MakeId = "MakeTestId", ModelId = "ModelTestId", CategoryId = "CategoryTestId" })))
