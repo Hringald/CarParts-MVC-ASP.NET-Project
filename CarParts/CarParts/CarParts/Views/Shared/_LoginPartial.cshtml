@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using CarParts.Data.Models
+@using CarParts.Services.Admins
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IAdminsService Admins
+<link rel="stylesheet" href="~/css/adminPanel.css">
+
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            var userId = User.GetId();
+            var isUserAdmin = Admins.IsAdmin(userId);
+
+            if (isUserAdmin)
+            {
+<li class="nav-item">
+    <div class="dropdown nav-link text-dark">
+        <a class="dropbtn">Admin Panel</a>
+        <div class="dropdown-content">
+            <a   asp-area="" asp-controller="Admins"  asp-action="AddMake">Add Make</a>
+            <a   asp-area="" asp-controller="Admins"  asp-action="EditMakes">Edit Makes</a>
+            <a   asp-area="" asp-controller="Admins"  asp-action="AddModel">Add Model</a>
+            <a   asp-area="" asp-controller="Admins"  asp-action="EditModels">Edit Models</a>
+            <a   asp-area="" asp-controller="Admins"  asp-action="UsersParts">Edit Parts</a>
+        </div>
+    </div>
+</li> }
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
+</li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark"  asp-area="" asp-controller="Parts" asp-action="MyParts" title="Manage">My Parts</a>
+                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area=""  asp-controller="Offers" asp-action="MyOffers" title="Manage">My Offers</a>
+                                </li>
+                                                <li class="nav-item">
+                                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                                    </form>
+                                                </li> }
+                                                            else
+                                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                                                </li>}
+    </ul>
