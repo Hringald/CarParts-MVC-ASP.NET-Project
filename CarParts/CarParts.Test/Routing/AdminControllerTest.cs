@@ -1,9 +1,9 @@
 ﻿namespace CarParts.Test.Routing
 {
     using MyTested.AspNetCore.Mvc;
-    using CarParts.Controllers;
     using Xunit;
-    using CarParts.Models.Admins;
+    using CarParts.Areas.Admin.Views.Models;
+    using CarParts.Areas.Admin.Controllers;
     using CarParts.Models.Parts;
 
     public class AdminControllerTest
