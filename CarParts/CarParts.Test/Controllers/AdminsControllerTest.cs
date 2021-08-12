@@ -4,14 +4,10 @@
     using CarParts.Areas.Admin.Controllers;
     using Xunit;
     using CarParts.Data.Models;
-    using static WebConstants.Cache;
-    using System;
     using CarParts.Models.Parts;
     using System.Collections.Generic;
     using CarParts.Areas.Admin.Views.Models;
     using FluentAssertions;
-    using static Data.Parts;
-    using CarParts.Test.Data;
 
     public class AdminsControllerTest
     {
@@ -55,13 +51,6 @@
           new Admin { UserId = "TestId", Name = "TestName" })))
       .WithUser("TestUser")
       .Calling(c => c.AddModel())
-      .ShouldHave()
-                .MemoryCache(cache => cache
-                    .ContainingEntry(entry => entry
-                        .WithKey(getMakesCacheKey)
-                        .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(15))
-                        .WithValueOfType<List<PartCategoryViewModel>>()))
-                .AndAlso()
                 .ShouldReturn()
                 .View(view => view
                     .WithModelOfType<AddModelFormModel>());
@@ -85,13 +74,6 @@
       new Admin { UserId = "TestId", Name = "TestName" })))
     .WithUser("TestUser")
     .Calling(c => c.EditMakes())
-    .ShouldHave()
-            .MemoryCache(cache => cache
-                .ContainingEntry(entry => entry
-                    .WithKey(getMakesCacheKey)
-                    .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(15))
-                    .WithValueOfType<List<PartCategoryViewModel>>()))
-            .AndAlso()
             .ShouldReturn()
             .View(view => view
                 .WithModelOfType<List<PartCategoryViewModel>>());
@@ -164,13 +146,6 @@
        )))
      .WithUser("TestUser")
      .Calling(c => c.EditModel("TestId"))
-     .ShouldHave()
-             .MemoryCache(cache => cache
-                 .ContainingEntry(entry => entry
-                     .WithKey(getMakesCacheKey)
-                     .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(15))
-                     .WithValueOfType<List<PartCategoryViewModel>>()))
-             .AndAlso()
              .ShouldReturn()
              .View(view => view
                  .WithModelOfType<EditModelFormModel>());

@@ -6,19 +6,13 @@ namespace CarParts.Controllers
     using CarParts.Services.Parts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
-    using System;
-    using System.Collections.Generic;
     using static WebConstants;
-    using static WebConstants.Cache;
     public class PartsController : Controller
     {
         private readonly IPartsService parts;
-        private readonly IMemoryCache cache;
-        public PartsController(IPartsService parts, IMemoryCache cache)
+        public PartsController(IPartsService parts)
         {
             this.parts = parts;
-            this.cache = cache;
         }
 
         public IActionResult ChooseMake()
@@ -31,25 +25,8 @@ namespace CarParts.Controllers
         [Authorize]
         public IActionResult AddPart(string make)
         {
-            var cacheOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
-
-            var categories = this.cache.Get<ICollection<PartCategoryViewModel>>(getCategoriesCacheKey);
-            var models = this.cache.Get<ICollection<PartCategoryViewModel>>(getModelsCacheKey);
-
-            if (categories == null)
-            {
-                categories = this.parts.GetCategories();
-
-                this.cache.Set(getCategoriesCacheKey, categories, cacheOptions);
-            }
-
-            if (models == null)
-            {
-                models = this.parts.GetModels(make);
-
-                this.cache.Set(getCategoriesCacheKey, models, cacheOptions);
-            }
+            var categories = this.parts.GetCategories();
+            var models = this.parts.GetModels(make);
 
             return View(new AddPartFormModel
             {
@@ -81,7 +58,7 @@ namespace CarParts.Controllers
                 part.Models = this.parts.GetModels(part.MakeName);
                 return this.View(part);
             }
-            
+
             this.parts.AddPart(part, this.User.GetId());
 
             this.TempData[GlobalMessageKey] = "Part Added Successfully";

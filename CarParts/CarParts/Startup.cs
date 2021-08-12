@@ -4,7 +4,6 @@ namespace CarParts
     using CarParts.Data.Models;
     using CarParts.Infrastructure;
     using CarParts.Services.Admins;
-    using CarParts.Services.Home;
     using CarParts.Services.Makes;
     using CarParts.Services.Models;
     using CarParts.Services.Offers;
@@ -52,7 +51,6 @@ namespace CarParts
             });
 
             services.AddTransient<IAdminsService, AdminsService>();
-            services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IMakesService, MakesService>();
             services.AddTransient<IModelsService, ModelsService>();
             services.AddTransient<IOffersService, OffersService>();

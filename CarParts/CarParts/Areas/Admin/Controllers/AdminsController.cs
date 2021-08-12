@@ -21,14 +21,12 @@ namespace CarParts.Areas.Admin.Controllers
         private readonly IModelsService models;
         private readonly IPartsService parts;
         private readonly IMakesService makes;
-        private readonly IMemoryCache cache;
-        public AdminsController(IAdminsService admins, IModelsService models, IPartsService parts, IMakesService makes, IMemoryCache cache)
+        public AdminsController(IAdminsService admins, IModelsService models, IPartsService parts, IMakesService makes)
         {
             this.admins = admins;
             this.models = models;
             this.parts = parts;
             this.makes = makes;
-            this.cache = cache;
         }
         [Authorize]
         public IActionResult Become() => this.View();
@@ -96,7 +94,7 @@ namespace CarParts.Areas.Admin.Controllers
 
             return this.Redirect("/");
         }
-      
+
         [Authorize]
         public IActionResult AddModel()
         {
@@ -105,19 +103,8 @@ namespace CarParts.Areas.Admin.Controllers
                 return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
             }
 
-            const string getMakesCacheKey = "GetMakesCacheKey";
+            var makes = this.models.GetMakes();
 
-            var cacheOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
-
-            var makes = this.cache.Get<ICollection<PartCategoryViewModel>>(getMakesCacheKey);
-
-            if (makes == null)
-            {
-                makes = this.models.GetMakes();
-
-                this.cache.Set(getMakesCacheKey, makes, cacheOptions);
-            }
 
             return View(new AddModelFormModel
             {
@@ -174,17 +161,7 @@ namespace CarParts.Areas.Admin.Controllers
                 return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
             }
 
-            var cacheOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
-
-            var makes = this.cache.Get<ICollection<PartCategoryViewModel>>(getMakesCacheKey);
-
-            if (makes == null)
-            {
-                makes = this.models.GetMakes();
-
-                this.cache.Set(getMakesCacheKey, makes, cacheOptions);
-            }
+            var makes = this.models.GetMakes();
 
             return this.View(makes);
         }
@@ -218,7 +195,7 @@ namespace CarParts.Areas.Admin.Controllers
                 return this.View(makeModel);
             }
 
-            this.makes.EditMake(makeModel,this.admins.GetAdminId(this.User.GetId()));
+            this.makes.EditMake(makeModel, this.admins.GetAdminId(this.User.GetId()));
 
             this.TempData[GlobalMessageKey] = "Make edited Successfully";
 
@@ -260,17 +237,7 @@ namespace CarParts.Areas.Admin.Controllers
                 return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
             }
 
-            var cacheOptions = new MemoryCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
-
-            var makes = this.cache.Get<ICollection<PartCategoryViewModel>>(getMakesCacheKey);
-
-            if (makes == null)
-            {
-                makes = this.models.GetMakes();
-
-                this.cache.Set(getMakesCacheKey, makes, cacheOptions);
-            }
+            var makes = this.models.GetMakes();
 
             var model = this.models.GetModelById(modelId);
 
@@ -308,7 +275,7 @@ namespace CarParts.Areas.Admin.Controllers
                 return this.View(modelModel);
             }
 
-            this.models.EditModel(modelModel,this.admins.GetAdminId(this.User.GetId()));
+            this.models.EditModel(modelModel, this.admins.GetAdminId(this.User.GetId()));
 
             this.TempData[GlobalMessageKey] = "Model Edited Successfully";
 

@@ -4,10 +4,8 @@
     using CarParts.Data.Models;
     using CarParts.Models.Parts;
     using MyTested.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using Xunit;
-    using static WebConstants.Cache;
     using static Data.Makes;
     using FluentAssertions;
     using CarParts.Models.Offers;
@@ -38,13 +36,6 @@
           )))
           .WithUser("TestUser")
           .Calling(c => c.AddPart("TestMakeName"))
-          .ShouldHave()
-                .MemoryCache(cache => cache
-                    .ContainingEntry(entry => entry
-                      .WithKey(getCategoriesCacheKey)
-                      .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(15))
-                      .WithValueOfType<List<PartCategoryViewModel>>()))
-                .AndAlso()
                 .ShouldReturn()
                 .View(view => view
                     .WithModelOfType<AddPartFormModel>());

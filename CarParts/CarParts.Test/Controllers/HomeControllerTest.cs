@@ -7,8 +7,6 @@
     using CarParts.Models.Parts;
     using FluentAssertions;
     using static CarParts.Test.Data.Makes;
-    using static WebConstants.Cache;
-    using System;
 
     public class HomeControllerTest
     {
@@ -18,13 +16,6 @@
                 .Instance(controller => controller
                     .WithData(TenMakes))
                 .Calling(c => c.Index())
-                .ShouldHave()
-                .MemoryCache(cache => cache
-                    .ContainingEntry(entry => entry
-                        .WithKey(getMakesCacheKey)
-                        .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(15))
-                        .WithValueOfType<List<PartCategoryViewModel>>()))
-                .AndAlso()
                 .ShouldReturn()
                 .View(view => view
                     .WithModelOfType<List<PartCategoryViewModel>>()

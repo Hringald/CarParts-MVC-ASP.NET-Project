@@ -7,7 +7,6 @@
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
     using Xunit;
-    using static Data.Offers;
     public class OffersControllerTest
     {
         [Fact]

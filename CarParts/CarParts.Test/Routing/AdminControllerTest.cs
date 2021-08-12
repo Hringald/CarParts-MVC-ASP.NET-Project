@@ -162,7 +162,7 @@
           .WithMethod(HttpMethod.Get))
           .To<AdminsController>(c => c.EditPart(With.Any<string>()));
 
-        /*
+        
         [Fact]
         public void PostEditPartRouteShouldBeMapped()
      => MyRouting
@@ -171,7 +171,7 @@
          .WithPath("/Admins/EditPart")
          .WithMethod(HttpMethod.Post))
          .To<AdminsController>(c => c.EditPart(With.Any<EditPartFormModel>()));
-        */
+        
         [Fact]
         public void GetDeletePartRouteShouldBeMapped()
      => MyRouting
