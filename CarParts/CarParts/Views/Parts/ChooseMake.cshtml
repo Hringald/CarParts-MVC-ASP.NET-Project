@@ -12,7 +12,7 @@
     @foreach (var make in Model)
     {
 <div class="col-6 col-xl-1 mb-5  mt-5 ml-4 mr-4">
-    <a asp-controller="Shop" asp-action="Models" asp-route-Make="@make.Name">
+    <a asp-controller="Parts" asp-action="AddPart" asp-route-Make="@make.Name">
         <img style="width:90px;max-width:90px;height:90px;max-height:90px" src="@make.ImageUrl"
              class="card-img-top img-fluid card-image rounded" data-toggle="tooltip"
              data-placement="bottom" title="car.Year car.Model">
