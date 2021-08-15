@@ -1034,3 +1034,4 @@ C:\Users\Antonio\OneDrive\Работен плот\CarParts-MVC-ASP.NET-Project-m
 C:\Users\Antonio\OneDrive\Работен плот\CarParts-MVC-ASP.NET-Project-main\CarParts-MVC-ASP.NET-Project\CarParts\CarParts.Test\bin\Debug\net5.0\CarParts.pdb
 C:\Users\Antonio\OneDrive\Работен плот\CarParts-MVC-ASP.NET-Project-main\CarParts-MVC-ASP.NET-Project\CarParts\CarParts.Test\obj\Debug\net5.0\CarParts.Test.csproj.CopyComplete
 C:\Users\Antonio\OneDrive\Работен плот\CarParts-MVC-ASP.NET-Project-main\CarParts-MVC-ASP.NET-Project\CarParts\CarParts.Test\obj\Debug\net5.0\CarParts.Test.genruntimeconfig.cache
+C:\Users\Antonio\OneDrive\Работен плот\CarParts-MVC-ASP.NET-Project-main\CarParts-MVC-ASP.NET-Project\CarParts\CarParts.Test\bin\Debug\net5.0\CarParts.StaticWebAssets.xml

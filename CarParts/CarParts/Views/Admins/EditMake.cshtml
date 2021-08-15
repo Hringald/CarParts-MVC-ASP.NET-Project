@@ -1,7 +1,7 @@
 @using CarParts.Areas.Admin.Views.Models
 @model EditMakeFormModel
 
-@{ ViewData["Title"] = "Edit Make"; }
+@{ ViewBag.Title = "Edit Make"; }
 
 
 
@@ -16,12 +16,12 @@
         </div>
 
         <div class="offset-md-2 col-md-8 com-sm-12">
-            <h2 class="heading-margin" text-center>Add Make</h2>
+            <h2 class="heading-margin" text-center>@ViewBag.Title</h2>
             <form method="post" enctype="multipart/form-data">
                 <input asp-for="Id" value="@Model.Id" readonly hidden>
                 <div class="form-group">
                     <label asp-for="Name">Name</label>
-                    <input asp-for="Name" value="@Model.Name" class="form-control" placeholder="Edit part name...">
+                    <input asp-for="Name" value="@Model.Name" class="form-control" placeholder="Edit make name...">
                     <span asp-validation-for="Name" class="small text-danger"></span>
                 </div>
                 <div class="form-group">
