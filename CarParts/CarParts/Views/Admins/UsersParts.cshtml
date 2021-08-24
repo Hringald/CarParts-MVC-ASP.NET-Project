@@ -1,11 +1,11 @@
 @using CarParts.Areas.Admin.Views.Models
 @model ICollection<UsersPartsViewModel>
-@{ ViewData["Title"] = "Users Parts"; }
+@{ ViewBag.Title = "Users Parts"; }
 
 
 @if (!Model.Any())
 {
-<h1>There are no users with posted parts.0</h1> }
+<h1>There are no users with posted parts.</h1> }
 else
 {
 <table class="table">

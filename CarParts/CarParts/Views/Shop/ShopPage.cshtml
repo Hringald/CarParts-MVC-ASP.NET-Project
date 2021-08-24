@@ -1,7 +1,7 @@
 ﻿@using CarParts.Services.Admins
 @inject IAdminsService Admins
 @model AllPartsViewModel
-@{ ViewData["Title"] = "Shop Page";
+@{ ViewBag.Title = "Shop Page";
                 var userIsAdmin = Admins.IsAdmin(User.GetId()); }
 <div class="text-center">
     <h1 class="display-4">Parts</h1>
