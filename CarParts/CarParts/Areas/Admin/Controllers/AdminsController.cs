@@ -8,11 +8,7 @@ namespace CarParts.Areas.Admin.Controllers
     using CarParts.Services.Parts;
     using CarParts.Models.Parts;
     using CarParts.Services.Makes;
-    using static WebConstants.Cache;
     using static WebConstants;
-    using Microsoft.Extensions.Caching.Memory;
-    using System.Collections.Generic;
-    using System;
     using CarParts.Areas.Admin.Views.Models;
 
     public class AdminsController : Controller
@@ -64,7 +60,7 @@ namespace CarParts.Areas.Admin.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult AddMake(AddMakeFormModel makeModel/*, IFormFile makeImage*/)
+        public IActionResult AddMake(AddMakeFormModel makeModel)
         {
             var adminId = this.admins.GetAdminId(this.User.GetId());
 
@@ -72,12 +68,7 @@ namespace CarParts.Areas.Admin.Controllers
             {
                 return this.RedirectToAction((nameof(AdminsController.Become)), "Admins");
             }
-            /*
-            if (makeImage == null || makeImage.Length > 5 * 1024 * 1024)
-            {
-                this.ModelState.AddModelError("makeImage", "The image is not valid it is required and should be less than 5mb.");
-            }
-            */
+
             if (this.makes.MakeExists(makeModel))
             {
                 this.ModelState.AddModelError(nameof(makeModel.Name), "Make already exists.");

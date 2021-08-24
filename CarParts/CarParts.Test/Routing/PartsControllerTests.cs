@@ -3,7 +3,6 @@
     using MyTested.AspNetCore.Mvc;
     using CarParts.Controllers;
     using Xunit;
-    using CarParts.Models.Parts;
     using CarParts.Models.Offers;
 
     public class PartsControllerTest
