@@ -1,6 +1,7 @@
-﻿namespace CarParts.Data.Migrations
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace CarParts.Data.Migrations
 {
-    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,12 +90,12 @@
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     MakeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ModelId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", maxLength: 5000, nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: true)

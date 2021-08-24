@@ -11584,19 +11584,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Antonio\\.nuget\\packages\\": {}
+    "C:\\Users\\Hringald\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts.Test\\CarParts.Test.csproj",
+      "projectUniqueName": "C:\\Users\\Hringald\\Desktop\\GitHub\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts.Test\\CarParts.Test.csproj",
       "projectName": "CarParts.Test",
-      "projectPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts.Test\\CarParts.Test.csproj",
-      "packagesPath": "C:\\Users\\Antonio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts.Test\\obj\\",
+      "projectPath": "C:\\Users\\Hringald\\Desktop\\GitHub\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts.Test\\CarParts.Test.csproj",
+      "packagesPath": "C:\\Users\\Hringald\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Hringald\\Desktop\\GitHub\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts.Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Antonio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Hringald\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11610,8 +11610,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj": {
-              "projectPath": "C:\\Users\\Antonio\\OneDrive\\Работен плот\\CarParts-MVC-ASP.NET-Project-main\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj"
+            "C:\\Users\\Hringald\\Desktop\\GitHub\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj": {
+              "projectPath": "C:\\Users\\Hringald\\Desktop\\GitHub\\CarParts-MVC-ASP.NET-Project\\CarParts\\CarParts\\CarParts.csproj"
             }
           }
         }
@@ -11670,7 +11670,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }
